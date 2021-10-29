@@ -1,0 +1,1709 @@
+Reading symbols from app...
+Reading symbols from app...
+Breakpoint 1 at 0x40310e: file t1.c, line 6.
+Starting program: /home/tam/Desktop/bignum/app 
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, main () at t1.c:6
+6	int main(){
+=> 0x000000000040310e <main+8>:	64 48 8b 04 25 28 00 00 00	mov    %fs:0x28,%rax
+   0x0000000000403117 <main+17>:	48 89 45 f8	mov    %rax,-0x8(%rbp)
+   0x000000000040311b <main+21>:	31 c0	xor    %eax,%eax
+7		char *str1="111111111111111111111111111111111111111111111";
+=> 0x000000000040311d <main+23>:	48 c7 45 f0 38 10 5a 00	movq   $0x5a1038,-0x10(%rbp)
+9		a=BN_new();
+=> 0x0000000000403125 <main+31>:	e8 b9 06 00 00	callq  0x4037e3 <BN_new>
+   0x000000000040312a <main+36>:	48 89 45 e8	mov    %rax,-0x18(%rbp)
+10		BN_hex2bn(&a,str1);
+=> 0x000000000040312e <main+40>:	48 8b 55 f0	mov    -0x10(%rbp),%rdx
+   0x0000000000403132 <main+44>:	48 8d 45 e8	lea    -0x18(%rbp),%rax
+   0x0000000000403136 <main+48>:	48 89 d6	mov    %rdx,%rsi
+   0x0000000000403139 <main+51>:	48 89 c7	mov    %rax,%rdi
+   0x000000000040313c <main+54>:	e8 1c 62 00 00	callq  0x40935d <BN_hex2bn>
+   0x0000000000403141 <main+59>:	b8 00 00 00 00	mov    $0x0,%eax
+Not confirmed.
+Reading symbols from app...
+Breakpoint 1 at 0x40310e: file t1.c, line 6.
+Starting program: /home/tam/Desktop/bignum/app 
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, main () at t1.c:6
+6	int main(){
+10		a=BN_new();
+11		BN_hex2bn(&a,str);
+$1 = 0x7fffffffe130 "\001"
+$2 = 1 '\001'
+Reading symbols from app...
+Breakpoint 1 at 0x403125: file t1.c, line 10.
+Starting program: /home/tam/Desktop/bignum/app 
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, main () at t1.c:10
+10		a=BN_new();
+$1 = 0x5a1038 '1' <repeats 45 times>
+Reading symbols from app...
+Breakpoint 1 at 0x40311d: file t1.c, line 10.
+Starting program: /home/tam/Desktop/bignum/app 
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, main () at t1.c:10
+10		a=BN_new();
+$1 = (BIGNUM *) 0x403000 <_start>
+$2 = {
+  d = 0x8949ed31fa1e0ff3,
+  top = -1991745839,
+  dmax = -461158174,
+  neg = 1230262512,
+  flags = 132169927
+}
+11		BN_hex2bn(&a,str);
+12		str1=BN_bn2hex(a);
+$3 = {
+  d = 0x6322e0,
+  top = 3,
+  dmax = 3,
+  neg = 0,
+  flags = 1
+}
+14	}
+$4 = 48 '0'
+Reading symbols from app...
+Breakpoint 1 at 0x40311d: file t1.c, line 10.
+Starting program: /home/tam/Desktop/bignum/app 
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, main () at t1.c:10
+10		a=BN_new();
+$1 = 1 '\001'
+11		BN_hex2bn(&a,str);
+12		str1=BN_bn2hex(a);
+14	}
+$2 = 48 '0'
+Reading symbols from app...
+Breakpoint 1 at 0x403159: file t1.c, line 14.
+Starting program: /home/tam/Desktop/bignum/app 
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, main () at t1.c:14
+14	}
+$1 = 48 '0'
+$2 = 0x632300 "0ABC127772942CABFFFFF2329382382397924792789ABC"
+Reading symbols from app...
+Breakpoint 1 at 0x403151: file t1.c, line 14.
+Starting program: /home/tam/Desktop/bignum/app 
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, main () at t1.c:14
+14	}
+$1 = 0x632300 "0ABC127772942CABFFFFF2329382382397924792789ABC"
+Reading symbols from app...
+Breakpoint 1 at 0x403190: file t1.c, line 20.
+Starting program: /home/tam/Desktop/bignum/app 
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, main () at t1.c:20
+20	}
+$1 = 0x632390 "0BE824EEA5285957FAAFE465270470472F248F24F13578"
+$2 = 0x5a1008 "abc127772942cabfffff2329382382397924792789abc"
+$3 = 97 'a'
+$4 = (char **) 0x625398 <stm>
+$5 = (char **) 0x7fffffffe030
+Starting program: /home/tam/Desktop/bignum/app 
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, main () at t1.c:20
+20	}
+Reading symbols from app...
+Breakpoint 1 at 0x40311d: file t1.c, line 11.
+Starting program: /home/tam/Desktop/bignum/app 
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, main () at t1.c:11
+11		a=BN_new();
+$1 = (char **) 0x7fffffffe030
+$2 = (char **) 0x625390 <str>
+$3 = (char **) 0x625398 <stm>
+$4 = 0x5a1008 "abc127772942cabfffff2329382382397924792789abc"
+$5 = 0x7fffffffe130 "\001"
+Breakpoint 2 at 0x403190: file t1.c, line 20.
+Continuing.
+
+Breakpoint 2, main () at t1.c:20
+20	}
+$6 = 0x632390 "0BE824EEA5285957FAAFE465270470472F248F24F13578"
+Reading symbols from app...
+Breakpoint 1 at 0x403164: file t1.c, line 19.
+Starting program: /home/tam/Desktop/bignum/app 
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, main () at t1.c:19
+19		BN_dec2bn(&r,std);
+BN_dec2bn (bn=0x7fffffffe028, a=0x5a1068 "6516516546546546516516565465456156165654") at crypto/bn/bn_print.c:199
+199	    BIGNUM *ret = NULL;
+200	    BN_ULONG l = 0;
+201	    int neg = 0, i, j;
+204	    if ((a == NULL) || (*a == '\0'))
+206	    if (*a == '-') {
+211	    for (i = 0; i <= (INT_MAX/4) && isdigit((unsigned char)a[i]); i++)
+214	    if (i == 0 || i > INT_MAX/4)
+217	    num = i + neg;
+$1 = 40
+218	    if (bn == NULL)
+225	    if (*bn == NULL) {
+229	        ret = *bn;
+230	        BN_zero(ret);
+234	    if (bn_expand(ret, i * 4) == NULL)
+237	    j = BN_DEC_NUM - (i % BN_DEC_NUM);
+238	    if (j == BN_DEC_NUM)
+$2 = 17
+240	    l = 0;
+241	    while (--i >= 0) {
+242	        l *= 10;
+243	        l += *a - '0';
+$3 = 0
+244	        a++;
+$4 = 6
+245	        if (++j == BN_DEC_NUM) {
+241	    while (--i >= 0) {
+242	        l *= 10;
+243	        l += *a - '0';
+244	        a++;
+245	        if (++j == BN_DEC_NUM) {
+246	            if (!BN_mul_word(ret, BN_DEC_CONV)
+247	                || !BN_add_word(ret, l))
+249	            l = 0;
+$5 = (BIGNUM *) 0x6322e0
+$6 = {
+  d = 0x632360,
+  top = 1,
+  dmax = 3,
+  neg = 0,
+  flags = 1
+}
+$7 = (unsigned long *) 0x632360
+$8 = (unsigned long *) 0x632360
+$9 = 65
+250	            j = 0;
+241	    while (--i >= 0) {
+242	        l *= 10;
+243	        l += *a - '0';
+244	        a++;
+245	        if (++j == BN_DEC_NUM) {
+241	    while (--i >= 0) {
+242	        l *= 10;
+243	        l += *a - '0';
+Breakpoint 2 at 0x409cbd: file crypto/bn/bn_print.c, line 244.
+Continuing.
+
+Breakpoint 2, BN_dec2bn (bn=0x7fffffffe028, a=0x5a107c "16565465456156165654") at crypto/bn/bn_print.c:244
+244	        a++;
+$10 = 18
+$11 = 65
+245	        if (++j == BN_DEC_NUM) {
+246	            if (!BN_mul_word(ret, BN_DEC_CONV)
+247	                || !BN_add_word(ret, l))
+249	            l = 0;
+$12 = 6015612074820345091
+Cannot access memory at address 0x537bbf4f5a379d03
+$13 = 6015612074820345091
+$14 = 35
+$15 = 0
+$16 = 134289
+$17 = 19
+250	            j = 0;
+241	    while (--i >= 0) {
+242	        l *= 10;
+Continuing.
+
+Breakpoint 2, BN_dec2bn (bn=0x7fffffffe028, a=0x5a108f "4") at crypto/bn/bn_print.c:244
+244	        a++;
+$18 = 6565465456156165654
+245	        if (++j == BN_DEC_NUM) {
+246	            if (!BN_mul_word(ret, BN_DEC_CONV)
+247	                || !BN_add_word(ret, l))
+249	            l = 0;
+$19 = 19
+$20 = (unsigned long *) 0x632360
+$21 = 16211158229466564118
+$22 = 2772932439693644792
+#0  BN_dec2bn (bn=0x7fffffffe028, a=0x5a1090 "") at crypto/bn/bn_print.c:249
+#1  0x000000000040317a in main () at t1.c:19
+Reading symbols from app...
+Breakpoint 1 at 0x40311d: file t1.c, line 13.
+Starting program: /home/tam/Desktop/bignum/app 
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, main () at t1.c:13
+13		a=BN_new();
+BN_new () at crypto/bn/bn_lib.c:245
+245	    if ((ret = OPENSSL_zalloc(sizeof(*ret))) == NULL) {
+$1 = (BIGNUM *) 0x40201b <_init+27>
+$2 = {
+  d = 0xe235ffc308c48348,
+  top = -16768465,
+  dmax = 573563941,
+  neg = 1075777280,
+  flags = -500826368
+}
+$3 = (unsigned long *) 0xe235ffc308c48348
+Cannot access memory at address 0xe235ffc308c48348
+249	    ret->flags = BN_FLG_MALLOCED;
+$4 = {
+  d = 0x0,
+  top = 0,
+  dmax = 0,
+  neg = 0,
+  flags = 0
+}
+Cannot access memory at address 0x0
+251	    return (ret);
+Cannot access memory at address 0x0
+252	}
+main () at t1.c:14
+14		b=BN_new();
+15		r=BN_new();
+17		BN_hex2bn(&a,str);
+BN_hex2bn (bn=0x7fffffffe018, a=0x5a1008 "abc127772942cabfffff2329382382397924792789abc") at crypto/bn/bn_print.c:126
+126	    BIGNUM *ret = NULL;
+Cannot access memory at address 0x0
+Cannot access memory at address 0x0
+127	    BN_ULONG l = 0;
+128	    int neg = 0, h, m, i, j, k, c;
+131	    if ((a == NULL) || (*a == '\0'))
+134	    if (*a == '-') {
+139	    for (i = 0; i <= (INT_MAX/4) && isxdigit((unsigned char)a[i]); i++)
+142	    if (i == 0 || i > INT_MAX/4)
+145	    num = i + neg;
+146	    if (bn == NULL)
+150	    if (*bn == NULL) {
+154	        ret = *bn;
+155	        BN_zero(ret);
+BN_set_word (a=0x6322a0, w=0) at crypto/bn/bn_lib.c:491
+491	    if (bn_expand(a, (int)sizeof(BN_ULONG) * 8) == NULL)
+493	    a->neg = 0;
+494	    a->d[0] = w;
+495	    a->top = (w ? 1 : 0);
+$5 = (unsigned long *) 0x632300
+#0  BN_set_word (a=0x6322a0, w=0) at crypto/bn/bn_lib.c:495
+#1  0x00000000004099e7 in BN_hex2bn (bn=0x7fffffffe018, a=0x5a1008 "abc127772942cabfffff2329382382397924792789abc") at crypto/bn/bn_print.c:155
+#2  0x000000000040314e in main () at t1.c:17
+Reading symbols from app...
+Breakpoint 1 at 0x403138: file t1.c, line 17.
+Starting program: /home/tam/Desktop/bignum/app 
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, main () at t1.c:17
+17		BN_hex2bn(&a,str);
+BN_hex2bn (bn=0x7fffffffe018, a=0x5a1008 "abc127772942cabfffff2329382382397924792789abc") at crypto/bn/bn_print.c:126
+126	    BIGNUM *ret = NULL;
+127	    BN_ULONG l = 0;
+128	    int neg = 0, h, m, i, j, k, c;
+131	    if ((a == NULL) || (*a == '\0'))
+134	    if (*a == '-') {
+139	    for (i = 0; i <= (INT_MAX/4) && isxdigit((unsigned char)a[i]); i++)
+142	    if (i == 0 || i > INT_MAX/4)
+145	    num = i + neg;
+146	    if (bn == NULL)
+150	    if (*bn == NULL) {
+154	        ret = *bn;
+155	        BN_zero(ret);
+$1 = (BIGNUM *) 0x6322a0
+$2 = {
+  d = 0x0,
+  top = 0,
+  dmax = 0,
+  neg = 0,
+  flags = 1
+}
+BN_set_word (a=0x6322a0, w=0) at crypto/bn/bn_lib.c:491
+491	    if (bn_expand(a, (int)sizeof(BN_ULONG) * 8) == NULL)
+$3 = {
+  d = 0x0,
+  top = 0,
+  dmax = 0,
+  neg = 0,
+  flags = 1
+}
+493	    a->neg = 0;
+$4 = {
+  d = 0x632300,
+  top = 0,
+  dmax = 1,
+  neg = 0,
+  flags = 1
+}
+Reading symbols from app...
+Breakpoint 1 at 0x4031ad: file t1.c, line 25.
+Starting program: /home/tam/Desktop/bignum/app 
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, main () at t1.c:25
+25	}
+$1 = 4
+Reading symbols from app...
+Breakpoint 1 at 0x4031ad: file t1.c, line 25.
+Starting program: /home/tam/Desktop/bignum/app 
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, main () at t1.c:25
+25	}
+$1 = -4
+Reading symbols from app...
+Breakpoint 1 at 0x401264: file basic.c, line 59.
+No symbol "r" in current context.
+Starting program: /home/tam/Desktop/bignum/app 
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, main () at basic.c:59
+59	}
+$1 = 7378697629488018338
+$2 = 123
+Reading symbols from app...
+Breakpoint 1 at 0x40126c: file basic.c, line 63.
+Starting program: /home/tam/Desktop/bignum/app 
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, main () at basic.c:63
+63	}
+$1 = 79
+Reading symbols from app...
+Breakpoint 1 at 0x4014cd: file basic.c, line 150.
+The program is not being run.
+Starting program: /home/tam/Desktop/bignum/app 
+
+Breakpoint 1, main () at basic.c:150
+150	   int len=sizeof(*b);
+151	   len=sizeof(b);
+$1 = 16
+152	   len=sizeof(bignum);
+$2 = 8
+153	   bn_new(b,20);
+$3 = 16
+154	   dec2bn(&b,c);
+$4 = (bignum *) 0x401060 <_start>
+$5 = {
+  a = 0x8949ed31fa1e0ff3,
+  last = -1991745839,
+  max = -461158174
+}
+No symbol "a" in current context.
+Cannot access memory at address 0x8949ed31fa1e0ff3
+#0  main () at basic.c:154
+Starting program: /home/tam/Desktop/bignum/app 
+
+Breakpoint 1, main () at basic.c:150
+150	   int len=sizeof(*b);
+151	   len=sizeof(b);
+152	   len=sizeof(bignum);
+153	   bn_new(b,20);
+bn_new (b=0x401060 <_start>, digits=20) at basic.c:33
+33	   b=(bignum *)malloc(sizeof(*b));
+$6 = (bignum *) 0x401060 <_start>
+$7 = {
+  a = 0x8949ed31fa1e0ff3,
+  last = -1991745839,
+  max = -461158174
+}
+34	   b->a=(unsigned long*)malloc(sizeof(unsigned long)*digits);
+$8 = (bignum *) 0x4052a0
+$9 = {
+  a = 0x0,
+  last = 0,
+  max = 0
+}
+35	}
+$10 = {
+  a = 0x4052c0,
+  last = 0,
+  max = 0
+}
+$11 = 0
+$12 = 0
+$13 = 8
+$14 = 8
+$15 = 8
+$16 = 8
+main () at basic.c:154
+154	   dec2bn(&b,c);
+Cannot access memory at address 0x8949ed31fa1e0ff3
+Cannot access memory at address 0x8949ed31fa1e0ff3
+$17 = {
+  a = 0x8949ed31fa1e0ff3,
+  last = -1991745839,
+  max = -461158174
+}
+Reading symbols from app...
+Breakpoint 1 at 0x4014da: file basic.c, line 155.
+Starting program: /home/tam/Desktop/bignum/app 
+
+Breakpoint 1, main () at basic.c:155
+155	   b=bn_new(20);
+156	   dec2bn(&b,c);
+$1 = {
+  a = 0x4052c0,
+  last = 0,
+  max = 0
+}
+$2 = 0
+159	}
+$3 = 123979
+$4 = 1
+Reading symbols from app...
+Breakpoint 1 at 0x401500: file basic.c, line 159.
+Starting program: /home/tam/Desktop/bignum/app 
+
+Breakpoint 1, main () at basic.c:159
+warning: Source file is more recent than executable.
+159	
+$1 = 1
+Starting program: /home/tam/Desktop/bignum/app 
+
+Breakpoint 1, main () at basic.c:159
+159	
+$2 = 1
+Reading symbols from app...
+Breakpoint 1 at 0x4014e8: file basic.c, line 156.
+Starting program: /home/tam/Desktop/bignum/app 
+
+Breakpoint 1, main () at basic.c:156
+warning: Source file is more recent than executable.
+156	   b=bn_new(20);
+$1 = 0
+159	
+Starting program: /home/tam/Desktop/bignum/app 
+
+Breakpoint 1, main () at basic.c:156
+156	   b=bn_new(20);
+151	   char *c="123979";
+152	   bignum *b;
+153	   int len=sizeof(*b);
+154	   len=sizeof(b);
+155	   len=sizeof(bignum);
+156	   b=bn_new(20);
+157	   dec2bn(&b,c);
+158	
+159	
+160	}
+159	
+Reading symbols from app...
+Breakpoint 1 at 0x4014e8: file basic.c, line 156.
+Starting program: /home/tam/Desktop/bignum/app 
+
+Breakpoint 1, main () at basic.c:156
+warning: Source file is more recent than executable.
+156	   b=bn_new(20);
+159	
+Starting program: /home/tam/Desktop/bignum/app 
+
+Breakpoint 1, main () at basic.c:156
+156	   b=bn_new(20);
+Hardware watchpoint 2: b->last
+Continuing.
+
+Hardware watchpoint 2: b->last
+
+Old value = 0
+New value = 1
+dec2bn (bn=0x7fffffffdfe8, a=0x40200a "") at basic.c:134
+134	//      ret->neg = neg;
+136	
+main () at basic.c:159
+159	
+
+Watchpoint 2 deleted because the program has left the block in
+which its expression is valid.
+__libc_start_main (main=0x4014a6 <main>, argc=1, argv=0x7fffffffe0f8, init=<optimized out>, fini=<optimized out>, rtld_fini=<optimized out>, 
+    stack_end=0x7fffffffe0e8) at ../csu/libc-start.c:342
+342	../csu/libc-start.c: No such file or directory.
+Starting program: /home/tam/Desktop/bignum/app 
+
+Breakpoint 1, main () at basic.c:156
+156	   b=bn_new(20);
+Continuing.
+[Inferior 1 (process 8328) exited normally]
+The program is not being run.
+Reading symbols from app...
+Breakpoint 1 at 0x4014e8: file basic.c, line 156.
+Starting program: /home/tam/Desktop/bignum/app 
+
+Breakpoint 1, main () at basic.c:156
+warning: Source file is more recent than executable.
+156	   b=bn_new(20);
+Hardware watchpoint 2: b->last
+Continuing.
+
+Hardware watchpoint 2: b->last
+
+Old value = 0
+New value = 1
+dec2bn (bn=0x7fffffffdfe8, a=0x40200a "") at basic.c:134
+134	//      ret->neg = neg;
+#0  dec2bn (bn=0x7fffffffdfe8, a=0x40200a "") at basic.c:134
+#1  0x00000000004014fb in main () at basic.c:156
+Reading symbols from app...
+Breakpoint 1 at 0x4014e4: file basic.c, line 156.
+Starting program: /home/tam/Desktop/bignum/app 
+
+Breakpoint 1, main () at basic.c:156
+156	   b=bn_new(20);
+157	   dec2bn(&b,c);
+$1 = 0
+Hardware watchpoint 2: b->last
+Continuing.
+
+Hardware watchpoint 2: b->last
+
+Old value = 0
+New value = 1
+dec2bn (bn=0x7fffffffdfe8, a=0x40200a "") at basic.c:135
+135	   return (num);
+Starting program: /home/tam/Desktop/bignum/app 
+
+Breakpoint 1, main () at basic.c:156
+156	   b=bn_new(20);
+157	   dec2bn(&b,c);
+dec2bn (bn=0x7fffffffdfe8, a=0x402004 "123979") at basic.c:76
+76	   bignum *ret = NULL;
+Cannot access memory at address 0x0
+77	   unsigned long l = 0;
+Cannot access memory at address 0x0
+Cannot access memory at address 0x0
+84	   if ((a == NULL) || (*a == '\0'))
+94	    for (i = 0; isdigit((unsigned char)a[i]); i++)
+$2 = (bignum *) 0x4052a0
+$3 = {
+  a = 0x4052c0,
+  last = 0,
+  max = 20
+}
+Hardware watchpoint 3: **bn.last
+Continuing.
+Warning:
+Could not insert hardware watchpoint 3.
+Could not insert hardware breakpoints:
+You may have requested too many hardware breakpoints/watchpoints.
+
+Warning:
+Could not insert hardware watchpoint 3.
+Could not insert hardware breakpoints:
+You may have requested too many hardware breakpoints/watchpoints.
+
+Command aborted.
+Reading symbols from app...
+Breakpoint 1 at 0x4014f2: file basic.c, line 157.
+Starting program: /home/tam/Desktop/bignum/app 
+
+Breakpoint 1, main () at basic.c:157
+157	   dec2bn(&b,c);
+dec2bn (bn=0x7fffffffdfe8, a=0x402004 "123979") at basic.c:76
+76	   bignum *ret = NULL;
+77	   unsigned long l = 0;
+84	   if ((a == NULL) || (*a == '\0'))
+94	    for (i = 0; isdigit((unsigned char)a[i]); i++)
+Breakpoint 2 at 0x401474: file basic.c, line 123.
+Program not restarted.
+Continuing.
+
+Breakpoint 2, dec2bn (bn=0x7fffffffdfe8, a=0x40200a "") at basic.c:123
+123	         BN_add_word(ret, l);
+$1 = 0
+BN_add_word (a=0x405370, w=123979) at basic.c:46
+46	   for (i = 0; w != 0 && i < a->last; i++) {
+$2 = {
+  a = 0x405390,
+  last = 0,
+  max = 24
+}
+Hardware watchpoint 3: a->last
+Continuing.
+
+Hardware watchpoint 3: a->last
+
+Old value = 0
+New value = 1
+BN_add_word (a=0x405370, w=123979) at basic.c:53
+53	      a->a[i] = w;
+$3 = 0
+$4 = 1
+$5 = 0
+$6 = 1
+Reading symbols from app...
+Breakpoint 1 at 0x401508: file basic.c, line 162.
+Starting program: /home/tam/Desktop/bignum/app 
+
+Breakpoint 1, main () at basic.c:162
+162	}
+$1 = (unsigned long *) 0x405398
+$2 = 6893488153984568697
+$3 = 1
+$4 = 6893488153984568697
+Reading symbols from app...
+Breakpoint 1 at 0x401508: file basic.c, line 162.
+Starting program: /home/tam/Desktop/bignum/app 
+
+Breakpoint 1, main () at basic.c:162
+162	}
+$1 = 6893488153984568697
+$2 = 17
+Reading symbols from app...
+Breakpoint 1 at 0x4014f2: file basic.c, line 157.
+Starting program: /home/tam/Desktop/bignum/app 
+
+Breakpoint 1, main () at basic.c:157
+157	   dec2bn(&b,"326893488153984568697");
+dec2bn (bn=0x7fffffffdfe8, a=0x40200b "326893488153984568697") at basic.c:76
+76	   bignum *ret = NULL;
+Breakpoint 2 at 0x401373: file basic.c, line 94.
+Continuing.
+
+Breakpoint 2, dec2bn (bn=0x7fffffffdfe8, a=0x40200b "326893488153984568697") at basic.c:94
+94	    for (i = 0; isdigit((unsigned char)a[i]); i++)
+98	   num=i;
+$1 = 21
+99	   if (bn == NULL)
+$2 = 21
+107	   ret = *bn;
+111	   ret=bn_new(i * 4);
+$3 = 20
+113	   j = BN_DEC_NUM - (i % BN_DEC_NUM);
+$4 = 84
+$5 = 84
+Reading symbols from app...
+Breakpoint 1 at 0x4013d0: file basic.c, line 111.
+Starting program: /home/tam/Desktop/bignum/app 
+
+Breakpoint 1, dec2bn (bn=0x7fffffffdfe8, a=0x40200b "326893488153984568697") at basic.c:111
+111	   ret=bn_new(i/10+5);
+$1 = 20
+113	   j = BN_DEC_NUM - (i % BN_DEC_NUM);
+$2 = 7
+114	   if (j == BN_DEC_NUM)
+$3 = 17
+No symbol "BN_DEC_NUM" in current context.
+$4 = 2
+$5 = 21
+$6 = 17
+116	   l = 0;
+117	   while (--i >= 0) {
+118	      l *= 10;
+119	      l += *a - '0';
+120	      a++;
+121	      if (++j == BN_DEC_NUM) {
+117	   while (--i >= 0) {
+118	      l *= 10;
+119	      l += *a - '0';
+120	      a++;
+$7 = 32
+121	      if (++j == BN_DEC_NUM) {
+$8 = 18
+122	         BN_mul_word(ret, BN_DEC_CONV);
+123	         BN_add_word(ret, l);
+124	         l = 0;
+$9 = 32
+125	         j = 0;
+117	   while (--i >= 0) {
+118	      l *= 10;
+Function "ifj==18" not defined.
+Breakpoint 2 at 0x40143c: file basic.c, line 118.
+Continuing.
+
+Breakpoint 2, dec2bn (bn=0x7fffffffdfe8, a=0x40201f "7") at basic.c:118
+118	      l *= 10;
+$10 = 18
+119	      l += *a - '0';
+120	      a++;
+$11 = 6893488153984568697
+121	      if (++j == BN_DEC_NUM) {
+122	         BN_mul_word(ret, BN_DEC_CONV);
+123	         BN_add_word(ret, l);
+No symbol "b" in current context.
+$12 = 17
+124	         l = 0;
+$13 = 6893488153984568697
+Starting program: /home/tam/Desktop/bignum/app 
+
+Breakpoint 1, dec2bn (bn=0x7fffffffdfe8, a=0x40200b "326893488153984568697") at basic.c:111
+111	   ret=bn_new(i/10+5);
+113	   j = BN_DEC_NUM - (i % BN_DEC_NUM);
+114	   if (j == BN_DEC_NUM)
+116	   l = 0;
+117	   while (--i >= 0) {
+118	      l *= 10;
+119	      l += *a - '0';
+120	      a++;
+121	      if (++j == BN_DEC_NUM) {
+117	   while (--i >= 0) {
+
+Breakpoint 2, dec2bn (bn=0x7fffffffdfe8, a=0x40200c "26893488153984568697") at basic.c:118
+118	      l *= 10;
+119	      l += *a - '0';
+120	      a++;
+$14 = 32
+121	      if (++j == BN_DEC_NUM) {
+122	         BN_mul_word(ret, BN_DEC_CONV);
+123	         BN_add_word(ret, l);
+124	         l = 0;
+A syntax error in expression, near `[0]'.
+$15 = 32
+125	         j = 0;
+Continuing.
+
+Breakpoint 2, dec2bn (bn=0x7fffffffdfe8, a=0x40201f "7") at basic.c:118
+118	      l *= 10;
+$16 = 18
+119	      l += *a - '0';
+120	      a++;
+121	      if (++j == BN_DEC_NUM) {
+122	         BN_mul_word(ret, BN_DEC_CONV);
+123	         BN_add_word(ret, l);
+$17 = 0
+$18 = 17
+Reading symbols from app...
+Breakpoint 1 at 0x401515: file basic.c, line 162.
+Starting program: /home/tam/Desktop/bignum/app 
+
+Breakpoint 1, main () at basic.c:162
+162	}
+$1 = 13298838900922191225
+$2 = 17
+Reading symbols from app...
+Breakpoint 1 at 0x4031a8: file t1.c, line 23.
+Starting program: /home/tam/Desktop/bignum/app 
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, main () at t1.c:23
+23		BN_num_bits(r);
+26	}
+Reading symbols from app...
+Breakpoint 1 at 0x4031bc: file t1.c, line 26.
+Starting program: /home/tam/Desktop/bignum/app 
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, main () at t1.c:26
+26	}
+$1 = 133
+Reading symbols from app...
+Breakpoint 1 at 0x4031cc: file t1.c, line 28.
+Starting program: /home/tam/Desktop/bignum/app 
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, main () at t1.c:28
+28	}
+$1 = 0x6323d0 "6516516546546546516516565465456156165654"
+Reading symbols from app...
+Breakpoint 1 at 0x4031b7: file t1.c, line 25.
+Starting program: /home/tam/Desktop/bignum/app 
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, main () at t1.c:25
+25		ctemp=BN_bn2dec(r);
+BN_bn2dec (a=0x6322e0) at crypto/bn/bn_print.c:55
+55	    int i = 0, num, ok = 0;
+56	    char *buf = NULL;
+58	    BIGNUM *t = NULL;
+59	    BN_ULONG *bn_data = NULL, *lp;
+68	    i = BN_num_bits(a) * 3;
+69	    num = (i / 10 + i / 1000 + 1) + 1;
+Reading symbols from app...
+Breakpoint 1 at 0x4031b7: file t1.c, line 25.
+Starting program: /home/tam/Desktop/bignum/app 
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, main () at t1.c:25
+25		ctemp=BN_bn2dec(r);
+BN_bn2dec (a=0x6322e0) at crypto/bn/bn_print.c:55
+55	    int i = 0, num, ok = 0;
+56	    char *buf = NULL;
+58	    BIGNUM *t = NULL;
+59	    BN_ULONG *bn_data = NULL, *lp;
+68	    i = BN_num_bits(a) * 3;
+$1 = 0
+69	    num = (i / 10 + i / 1000 + 1) + 1;
+$2 = 399
+70	    bn_data_num = num / BN_DEC_NUM + 1;
+$3 = 41
+$4 = 0x6323d0 "6516516546546546516516565465456156165654"
+71	    bn_data = OPENSSL_malloc(bn_data_num * sizeof(BN_ULONG));
+$5 = (BIGNUM *) 0x632410
+$6 = {
+  d = 0x632480,
+  top = 3,
+  dmax = 3,
+  neg = 0,
+  flags = 1
+}
+$7 = (const BIGNUM *) 0x6322e0
+$8 = {
+  d = 0x632360,
+  top = 3,
+  dmax = 4,
+  neg = 0,
+  flags = 1
+}
+Reading symbols from app...
+Breakpoint 1 at 0x4031fe: file t1.c, line 33.
+Starting program: /home/tam/Desktop/bignum/app 
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGSEGV, Segmentation fault.
+0x0000000000405711 in doapr_outch (sbuffer=0x7fffffffde68, buffer=0x0, currlen=0x7fffffffdde8, maxlen=0x7fffffffde60, c=55) at crypto/bio/b_print.c:839
+839	            (*sbuffer)[(*currlen)++] = (char)c;
+#0  0x0000000000405711 in doapr_outch (sbuffer=0x7fffffffde68, buffer=0x0, currlen=0x7fffffffdde8, maxlen=0x7fffffffde60, c=55) at crypto/bio/b_print.c:839
+#1  0x00000000004048d2 in fmtint (sbuffer=0x7fffffffde68, buffer=0x0, currlen=0x7fffffffdde8, maxlen=0x7fffffffde60, value=787834, base=10, min=0, max=0, 
+    flags=64) at crypto/bio/b_print.c:502
+#2  0x0000000000403b4a in _dopr (sbuffer=0x7fffffffde68, buffer=0x0, maxlen=0x7fffffffde60, retlen=0x7fffffffde80, truncated=0x7fffffffde7c, 
+    format=0x5a1099 "", args=0x7fffffffded0) at crypto/bio/b_print.c:245
+#3  0x0000000000405aaf in BIO_vsnprintf (buf=0x5a1091 "1232", n=3, format=0x5a1096 "%lu", args=0x7fffffffded0) at crypto/bio/b_print.c:913
+#4  0x0000000000405a35 in BIO_snprintf (buf=0x5a1091 "1232", n=3, format=0x5a1096 "%lu") at crypto/bio/b_print.c:902
+#5  0x00000000004031f9 in main () at t1.c:30
+Reading symbols from app...
+Reading symbols from app...
+Starting program: /home/tam/Desktop/bignum/app 31
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGSEGV, Segmentation fault.
+0x000000000040570e in doapr_outch (sbuffer=0x7fffffffde68, buffer=0x0, currlen=0x7fffffffdde8, maxlen=0x7fffffffde60, c=55) at crypto/bio/b_print.c:839
+839	            (*sbuffer)[(*currlen)++] = (char)c;
+Reading symbols from app...
+Breakpoint 1 at 0x4031d7: file t1.c, line 30.
+Starting program: /home/tam/Desktop/bignum/app 
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, main () at t1.c:30
+30		BIO_snprintf(ctemp1,3,"%lu",b1);
+
+Program received signal SIGSEGV, Segmentation fault.
+0x0000000000405711 in doapr_outch (sbuffer=0x7fffffffde68, buffer=0x0, currlen=0x7fffffffdde8, maxlen=0x7fffffffde60, c=55) at crypto/bio/b_print.c:839
+839	            (*sbuffer)[(*currlen)++] = (char)c;
+#0  0x0000000000405711 in doapr_outch (sbuffer=0x7fffffffde68, buffer=0x0, currlen=0x7fffffffdde8, maxlen=0x7fffffffde60, c=55) at crypto/bio/b_print.c:839
+#1  0x00000000004048d2 in fmtint (sbuffer=0x7fffffffde68, buffer=0x0, currlen=0x7fffffffdde8, maxlen=0x7fffffffde60, value=787834, base=10, min=0, max=0, 
+    flags=64) at crypto/bio/b_print.c:502
+#2  0x0000000000403b4a in _dopr (sbuffer=0x7fffffffde68, buffer=0x0, maxlen=0x7fffffffde60, retlen=0x7fffffffde80, truncated=0x7fffffffde7c, 
+    format=0x5a1099 "", args=0x7fffffffded0) at crypto/bio/b_print.c:245
+#3  0x0000000000405aaf in BIO_vsnprintf (buf=0x5a1091 "1232", n=3, format=0x5a1096 "%lu", args=0x7fffffffded0) at crypto/bio/b_print.c:913
+#4  0x0000000000405a35 in BIO_snprintf (buf=0x5a1091 "1232", n=3, format=0x5a1096 "%lu") at crypto/bio/b_print.c:902
+#5  0x00000000004031f9 in main () at t1.c:30
+Reading symbols from app...
+Breakpoint 1 at 0x403204: file t1.c, line 33.
+Starting program: /home/tam/Desktop/bignum/app 
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, main () at t1.c:33
+33	}
+$1 = 0x6322a0 "78"
+Reading symbols from app...
+Breakpoint 1 at 0x403204: file t1.c, line 33.
+Starting program: /home/tam/Desktop/bignum/app 
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, main () at t1.c:33
+33	}
+$1 = 0x6322a0 "787"
+Reading symbols from app...
+Breakpoint 1 at 0x403204: file t1.c, line 33.
+Starting program: /home/tam/Desktop/bignum/app 
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, main () at t1.c:33
+warning: Source file is more recent than executable.
+33	}
+$1 = 0x6322a0 "787"
+Reading symbols from app...
+Breakpoint 1 at 0x403204: file t1.c, line 33.
+Starting program: /home/tam/Desktop/bignum/app 
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, main () at t1.c:33
+33	}
+$1 = 0x6322a0 "787"
+Reading symbols from app...
+Breakpoint 1 at 0x403204: file t1.c, line 33.
+`/home/tam/Desktop/bignum/app' has changed; re-reading symbols.
+Starting program: /home/tam/Desktop/bignum/app 
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, main () at t1.c:33
+33	}
+$1 = 0x7fffffffe0f0 "787"
+Num     Type           Disp Enb Address            What
+1       breakpoint     keep y   0x00000000004031f6 in main at t1.c:33
+	breakpoint already hit 1 time
+No breakpoints or watchpoints.
+Breakpoint 2 at 0x40311d: file t1.c, line 14.
+Starting program: /home/tam/Desktop/bignum/app 
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 2, main () at t1.c:14
+14		unsigned long b1=787;
+$2 = 5900144
+$3 = 0x7fffffffe0f0 "\001"
+Breakpoint 3 at 0x4031f6: file t1.c, line 33.
+Program not restarted.
+Continuing.
+
+Breakpoint 3, main () at t1.c:33
+33	}
+$4 = 0x7fffffffe0f0 "787"
+`/home/tam/Desktop/bignum/app' has changed; re-reading symbols.
+Starting program: /home/tam/Desktop/bignum/app 
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 2, main () at t1.c:14
+14		unsigned long b1=787;
+$5 = 0x6322a0 ""
+Continuing.
+
+Breakpoint 3, main () at t1.c:33
+33	}
+$6 = 0x6322a0 "787"
+`/home/tam/Desktop/bignum/app' has changed; re-reading symbols.
+Starting program: /home/tam/Desktop/bignum/app 
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 2, main () at t1.c:14
+14		unsigned long b1=787;
+$7 = 0x6322a0 ""
+$8 = 0 '\000'
+$9 = 0 '\000'
+$10 = 0 '\000'
+$11 = 0 '\000'
+`/home/tam/Desktop/bignum/app' has changed; re-reading symbols.
+Starting program: /home/tam/Desktop/bignum/app 
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 2, main () at t1.c:14
+14		unsigned long b1=787;
+$12 = 0 '\000'
+$13 = 1 '\001'
+No symbol "help" in current context.
+Print value of expression EXP.
+Usage: print [[OPTION]... --] [/FMT] [EXP]
+
+Options:
+  -address [on|off]
+    Set printing of addresses.
+
+  -array [on|off]
+    Set pretty formatting of arrays.
+
+  -array-indexes [on|off]
+    Set printing of array indexes.
+
+  -elements NUMBER|unlimited
+    Set limit on string chars or array elements to print.
+    "unlimited" causes there to be no limit.
+
+  -max-depth NUMBER|unlimited
+    Set maximum print depth for nested structures, unions and arrays.
+    When structures, unions, or arrays are nested beyond this depth then they
+    will be replaced with either '{...}' or '(...)' depending on the language.
+    Use "unlimited" to print the complete structure.
+
+  -null-stop [on|off]
+    Set printing of char arrays to stop at first null char.
+
+  -object [on|off]
+    Set printing of C++ virtual function tables.
+
+  -pretty [on|off]
+    Set pretty formatting of structures.
+
+  -raw-values [on|off]
+    Set whether to print values in raw form.
+    If set, values are printed in raw form, bypassing any
+    pretty-printers for that value.
+
+  -repeats NUMBER|unlimited
+    Set threshold for repeated print elements.
+    "unlimited" causes all elements to be individually printed.
+
+  -static-members [on|off]
+    Set printing of C++ static members.
+
+  -symbol [on|off]
+    Set printing of symbol names when printing pointers.
+
+  -union [on|off]
+    Set printing of unions interior to structures.
+
+  -vtbl [on|off]
+    Set printing of C++ virtual function tables.
+
+Note: because this command accepts arbitrary expressions, if you
+specify any command option, you must use a double dash ("--")
+to mark the end of option processing.  E.g.: "print -o -- myobj".
+
+Variables accessible are those of the lexical environment of the selected
+stack frame, plus all those whose scope is global or an entire file.
+
+$NUM gets previous value number NUM.  $ and $$ are the last two values.
+$$NUM refers to NUM'th value back from the last one.
+Names starting with $ refer to registers (with the values they would have
+if the program were to return to the stack frame now selected, restoring
+all registers saved by frames farther in) or else to debugger
+"convenience" variables (any such name not a known register).
+Use assignment expressions to give values to convenience variables.
+
+{TYPE}ADREXP refers to a datum of data type TYPE, located at address ADREXP.
+@ is a binary operator for treating consecutive data objects
+anywhere in memory as an array.  FOO@NUM gives an array whose first
+element is FOO, whose second element is stored in the space following
+where FOO is stored, etc.  FOO must be an expression whose value
+resides in memory.
+
+EXP may be preceded with /FMT, where FMT is a format letter
+but no count or size letter (see "x" command).
+$14 = 1
+$15 = 1
+$16 = 1 '\001'
+$17 = "n"
+$18 = {[0] = 110, [1] = 0}
+$19 = 88 'X'
+Reading symbols from app...
+Breakpoint 1 at 0x4031f6: file t1.c, line 33.
+`/home/tam/Desktop/bignum/app' has changed; re-reading symbols.
+Starting program: /home/tam/Desktop/bignum/app 
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, main () at t1.c:34
+34	}
+$1 = 0x7fffffffe0f0 "787"
+`/home/tam/Desktop/bignum/app' has changed; re-reading symbols.
+Starting program: /home/tam/Desktop/bignum/app 
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, main () at t1.c:34
+34	}
+$2 = 0x7fffffffe0f0 '0' <repeats 16 times>, "787"
+`/home/tam/Desktop/bignum/app' has changed; re-reading symbols.
+Starting program: /home/tam/Desktop/bignum/app 
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, main () at t1.c:34
+34	}
+$3 = 0x7fffffffe0f0 "0000000787654654654"
+Reading symbols from app...
+Breakpoint 1 at 0x4031c5: file t1.c, line 28.
+Starting program: /home/tam/Desktop/bignum/app 
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, main () at t1.c:28
+28		ctemp=BN_bn2dec(r);
+BN_bn2dec (a=0x6322e0) at crypto/bn/bn_print.c:55
+55	    int i = 0, num, ok = 0;
+Breakpoint 2 at 0x4097a2: file crypto/bn/bn_print.c, line 90.
+Continuing.
+[Inferior 1 (process 23443) exited normally]
+Starting program: /home/tam/Desktop/bignum/app 
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, main () at t1.c:28
+28		ctemp=BN_bn2dec(r);
+Continuing.
+[Inferior 1 (process 23528) exited normally]
+Starting program: /home/tam/Desktop/bignum/app 
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, main () at t1.c:28
+28		ctemp=BN_bn2dec(r);
+BN_bn2dec (a=0x6322e0) at crypto/bn/bn_print.c:55
+55	    int i = 0, num, ok = 0;
+Num     Type           Disp Enb Address            What
+1       breakpoint     keep y   0x00000000004031c5 in main at t1.c:28
+	breakpoint already hit 1 time
+2       breakpoint     keep y   0x00000000004097a2 in BN_bn2dec at crypto/bn/bn_print.c:90
+56	    char *buf = NULL;
+58	    BIGNUM *t = NULL;
+59	    BN_ULONG *bn_data = NULL, *lp;
+68	    i = BN_num_bits(a) * 3;
+69	    num = (i / 10 + i / 1000 + 1) + 1;
+70	    bn_data_num = num / BN_DEC_NUM + 1;
+71	    bn_data = OPENSSL_malloc(bn_data_num * sizeof(BN_ULONG));
+72	    buf = OPENSSL_malloc(num + 3);
+73	    if ((buf == NULL) || (bn_data == NULL)) {
+77	    if ((t = BN_dup(a)) == NULL)
+81	    p = buf;
+82	    lp = bn_data;
+83	    if (BN_is_zero(t)) {
+87	        if (BN_is_negative(t))
+90	        while (!BN_is_zero(t)) {
+91	            if (lp - bn_data >= bn_data_num)
+93	            *lp = BN_div_word(t, BN_DEC_CONV);
+$1 = 0x632470 "6516516546546546516516565465456156165654"
+$2 = (unsigned long *) 0x632300
+$3 = 0
+94	            if (*lp == (BN_ULONG)-1)
+$4 = 6565465456156165654
+#0  BN_bn2dec (a=0x6322e0) at crypto/bn/bn_print.c:94
+#1  0x00000000004031d1 in main () at t1.c:28
+Num     Type           Disp Enb Address            What
+1       breakpoint     keep y   0x00000000004031c5 in main at t1.c:28
+	breakpoint already hit 1 time
+2       breakpoint     keep y   0x00000000004097a2 in BN_bn2dec at crypto/bn/bn_print.c:90
+Attempt to use a type name as an expression
+#0  BN_bn2dec (a=0x6322e0) at crypto/bn/bn_print.c:94
+#1  0x00000000004031d1 in main () at t1.c:28
+$5 = 6565465456156165654
+A syntax error in expression, near `-1)'.
+No symbol "BN_ULONG" in current context.
+#0  BN_bn2dec (a=0x6322e0) at crypto/bn/bn_print.c:94
+#1  0x00000000004031d1 in main () at t1.c:28
+`/home/tam/Desktop/bignum/app' has changed; re-reading symbols.
+Starting program: /home/tam/Desktop/bignum/app 
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, main () at t1.c:28
+28		ctemp=BN_bn2dec(r);
+Continuing.
+[Inferior 1 (process 25023) exited normally]
+Starting program: /home/tam/Desktop/bignum/app 
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, main () at t1.c:28
+28		ctemp=BN_bn2dec(r);
+BN_bn2dec (a=0x6322e0) at crypto/bn/bn_print.c:55
+55	    int i = 0, num, ok = 0;
+Continuing.
+[Inferior 1 (process 25075) exited normally]
+Note: breakpoint 2 also set at pc 0x4097a2.
+Breakpoint 3 at 0x4097a2: file crypto/bn/bn_print.c, line 90.
+Ambiguous command "in fo": inf, inferior, info, init-if-undefined, inspect, internals, interpreter-exec, interrupt.
+Num     Type           Disp Enb Address            What
+1       breakpoint     keep y   0x00000000004031c5 in main at t1.c:28
+	breakpoint already hit 1 time
+2       breakpoint     keep y   0x00000000004097a2 in BN_bn2dec at crypto/bn/bn_print.c:90
+3       breakpoint     keep y   0x00000000004097a2 in BN_bn2dec at crypto/bn/bn_print.c:90
+Ambiguous delete command "b 3": bookmark, breakpoints.
+Breakpoint 4 at 0x4097a4: file crypto/bn/bn_print.c, line 91.
+The program is not being run.
+Starting program: /home/tam/Desktop/bignum/app 
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, main () at t1.c:28
+28		ctemp=BN_bn2dec(r);
+BN_bn2dec (a=0x6322e0) at crypto/bn/bn_print.c:55
+55	    int i = 0, num, ok = 0;
+Starting program: /home/tam/Desktop/bignum/app 
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, main () at t1.c:28
+28		ctemp=BN_bn2dec(r);
+Num     Type           Disp Enb Address            What
+1       breakpoint     keep y   0x00000000004031c5 in main at t1.c:28
+	breakpoint already hit 1 time
+4       breakpoint     keep y   0x00000000004097a4 in BN_bn2dec at crypto/bn/bn_print.c:91
+BN_bn2dec (a=0x6322e0) at crypto/bn/bn_print.c:55
+55	    int i = 0, num, ok = 0;
+Continuing.
+
+Breakpoint 4, BN_bn2dec (a=0x6322e0) at crypto/bn/bn_print.c:91
+91	            if (lp - bn_data >= bn_data_num)
+93	            *lp = BN_div_word(t, BN_DEC_CONV);
+94	            if (*lp == (BN_ULONG)-1)
+No symbol "BN_ULONG" in current context.
+Reading symbols from app...
+Breakpoint 1 at 0x4031c5: file t1.c, line 28.
+The program is not being run.
+Starting program: /home/tam/Desktop/bignum/app 
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, main () at t1.c:28
+28		ctemp=BN_bn2dec(r);
+BN_bn2dec (a=0x6322e0) at crypto/bn/bn_print.c:55
+55	    int i = 0, num, ok = 0;
+56	    char *buf = NULL;
+58	    BIGNUM *t = NULL;
+Attempt to use a type name as an expression
+No symbol "BN_ULONG" in current context.
+Breakpoint 2 at 0x4097e7: file crypto/bn/bn_print.c, line 94.
+Program not restarted.
+Continuing.
+
+Breakpoint 2, BN_bn2dec (a=0x6322e0) at crypto/bn/bn_print.c:94
+94	            if (*lp == (BN_ULONG)-1)
+0x00000000004097eb	94	            if (*lp == (BN_ULONG)-1)
+   0x00000000004097e7 <BN_bn2dec+470>:	48 8b 45 e8	mov    -0x18(%rbp),%rax
+=> 0x00000000004097eb <BN_bn2dec+474>:	48 8b 00	mov    (%rax),%rax
+   0x00000000004097ee <BN_bn2dec+477>:	48 83 f8 ff	cmp    $0xffffffffffffffff,%rax
+   0x00000000004097f2 <BN_bn2dec+481>:	0f 84 da 00 00 00	je     0x4098d2 <BN_bn2dec+705>
+No symbol "BN_ULONG" in current context.
+Breakpoint 3 at 0x4094fa: file crypto/bn/bn_print.c, line 29.
+`/home/tam/Desktop/bignum/app' has changed; re-reading symbols.
+Starting program: /home/tam/Desktop/bignum/app 
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 3, BN_bn2hex (a=0x6322e0) at crypto/bn/bn_print.c:29
+29	    if (buf == NULL) {
+=> 0x0000000000409506 <BN_bn2hex+103>:	48 83 7d f8 00	cmpq   $0x0,-0x8(%rbp)
+   0x000000000040950b <BN_bn2hex+108>:	75 26	jne    0x409533 <BN_bn2hex+148>
+33	    p = buf;
+=> 0x0000000000409533 <BN_bn2hex+148>:	48 8b 45 f8	mov    -0x8(%rbp),%rax
+   0x0000000000409537 <BN_bn2hex+152>:	48 89 45 f0	mov    %rax,-0x10(%rbp)
+No symbol "temp" in current context.
+Program not restarted.
+Num     Type           Disp Enb Address            What
+1       breakpoint     keep y   0x00000000004031c9 in main at t1.c:28
+2       breakpoint     keep y   0x00000000004097f3 in BN_bn2dec at crypto/bn/bn_print.c:94
+3       breakpoint     keep y   0x0000000000409506 in BN_bn2hex at crypto/bn/bn_print.c:29
+	breakpoint already hit 1 time
+Num     Type           Disp Enb Address            What
+1       breakpoint     keep y   0x00000000004031c9 in main at t1.c:28
+2       breakpoint     keep n   0x00000000004097f3 in BN_bn2dec at crypto/bn/bn_print.c:94
+Starting program: /home/tam/Desktop/bignum/app 
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, main () at t1.c:28
+28		ctemp=BN_bn2dec(r);
+=> 0x00000000004031c9 <main+195>:	48 8b 45 c8	mov    -0x38(%rbp),%rax
+   0x00000000004031cd <main+199>:	48 89 c7	mov    %rax,%rdi
+   0x00000000004031d0 <main+202>:	e8 48 64 00 00	callq  0x40961d <BN_bn2dec>
+   0x00000000004031d5 <main+207>:	48 89 45 e8	mov    %rax,-0x18(%rbp)
+29		temp = (BN_ULONG)-20;
+=> 0x00000000004031d9 <main+211>:	48 c7 45 e0 ec ff ff ff	movq   $0xffffffffffffffec,-0x20(%rbp)
+$1 = 133
+32		sprintf(ctemp1,"%019lu",b1);
+=> 0x00000000004031e1 <main+219>:	48 8b 55 d0	mov    -0x30(%rbp),%rdx
+   0x00000000004031e5 <main+223>:	48 8b 45 f0	mov    -0x10(%rbp),%rax
+   0x00000000004031e9 <main+227>:	be 91 10 5a 00	mov    $0x5a1091,%esi
+   0x00000000004031ee <main+232>:	48 89 c7	mov    %rax,%rdi
+   0x00000000004031f1 <main+235>:	b8 00 00 00 00	mov    $0x0,%eax
+   0x00000000004031f6 <main+240>:	e8 35 f4 ff ff	callq  0x402630 <sprintf@plt>
+   0x00000000004031fb <main+245>:	b8 00 00 00 00	mov    $0x0,%eax
+$2 = 18446744073709551596
+$3 = 0xffffffffffffffec
+`/home/tam/Desktop/bignum/app' has changed; re-reading symbols.
+Starting program: /home/tam/Desktop/bignum/app 
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, main () at t1.c:28
+28		ctemp=BN_bn2dec(r);
+=> 0x00000000004031c9 <main+195>:	48 8b 45 c8	mov    -0x38(%rbp),%rax
+   0x00000000004031cd <main+199>:	48 89 c7	mov    %rax,%rdi
+   0x00000000004031d0 <main+202>:	e8 48 64 00 00	callq  0x40961d <BN_bn2dec>
+   0x00000000004031d5 <main+207>:	48 89 45 e8	mov    %rax,-0x18(%rbp)
+32		sprintf(ctemp1,"%019lu",b1);
+=> 0x00000000004031e1 <main+219>:	48 8b 55 d0	mov    -0x30(%rbp),%rdx
+   0x00000000004031e5 <main+223>:	48 8b 45 f0	mov    -0x10(%rbp),%rax
+   0x00000000004031e9 <main+227>:	be 91 10 5a 00	mov    $0x5a1091,%esi
+   0x00000000004031ee <main+232>:	48 89 c7	mov    %rax,%rdi
+   0x00000000004031f1 <main+235>:	b8 00 00 00 00	mov    $0x0,%eax
+   0x00000000004031f6 <main+240>:	e8 35 f4 ff ff	callq  0x402630 <sprintf@plt>
+   0x00000000004031fb <main+245>:	b8 00 00 00 00	mov    $0x0,%eax
+$4 = 1
+Starting program: /home/tam/Desktop/bignum/app 
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, main () at t1.c:28
+28		ctemp=BN_bn2dec(r);
+=> 0x00000000004031c9 <main+195>:	48 8b 45 c8	mov    -0x38(%rbp),%rax
+   0x00000000004031cd <main+199>:	48 89 c7	mov    %rax,%rdi
+   0x00000000004031d0 <main+202>:	e8 48 64 00 00	callq  0x40961d <BN_bn2dec>
+   0x00000000004031d5 <main+207>:	48 89 45 e8	mov    %rax,-0x18(%rbp)
+BN_bn2dec (a=0x6322e0) at crypto/bn/bn_print.c:55
+55	    int i = 0, num, ok = 0;
+=> 0x0000000000409629 <BN_bn2dec+12>:	c7 45 cc 00 00 00 00	movl   $0x0,-0x34(%rbp)
+   0x0000000000409630 <BN_bn2dec+19>:	c7 45 c8 00 00 00 00	movl   $0x0,-0x38(%rbp)
+56	    char *buf = NULL;
+Num     Type           Disp Enb Address            What
+1       breakpoint     keep y   0x00000000004031c9 in main at t1.c:28
+	breakpoint already hit 1 time
+2       breakpoint     keep n   0x00000000004097f3 in BN_bn2dec at crypto/bn/bn_print.c:94
+Continuing.
+
+Breakpoint 2, BN_bn2dec (a=0x6322e0) at crypto/bn/bn_print.c:94
+94	            if (*lp == (BN_ULONG)-1)
+Ambiguous delete command "b 2": bookmark, breakpoints.
+Starting program: /home/tam/Desktop/bignum/app 
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, main () at t1.c:28
+28		ctemp=BN_bn2dec(r);
+BN_bn2dec (a=0x6322e0) at crypto/bn/bn_print.c:55
+55	    int i = 0, num, ok = 0;
+Breakpoint 4 at 0x4097d3: file crypto/bn/bn_print.c, line 93.
+Continuing.
+
+Breakpoint 4, BN_bn2dec (a=0x6322e0) at crypto/bn/bn_print.c:93
+93	            *lp = BN_div_word(t, BN_DEC_CONV);
+BN_div_word (a=0x632410, w=10000000000000000000) at crypto/bn/bn_word.c:63
+63	    BN_ULONG ret = 0;
+Reading symbols from app...
+Breakpoint 1 at 0x4031c9: file t1.c, line 28.
+Starting program: /home/tam/Desktop/bignum/app 
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, main () at t1.c:28
+28		ctemp=BN_bn2dec(r);
+BN_bn2dec (a=0x6322e0) at crypto/bn/bn_print.c:55
+55	    int i = 0, num, ok = 0;
+Breakpoint 2 at 0x4097d3: file crypto/bn/bn_print.c, line 93.
+Program not restarted.
+Continuing.
+
+Breakpoint 2, BN_bn2dec (a=0x6322e0) at crypto/bn/bn_print.c:93
+93	            *lp = BN_div_word(t, BN_DEC_CONV);
+BN_div_word (a=0x632410, w=10000000000000000000) at crypto/bn/bn_word.c:63
+63	    BN_ULONG ret = 0;
+Breakpoint 3 at 0x40b13c: file crypto/bn/bn_word.c, line 85.
+Continuing.
+
+Breakpoint 3, BN_div_word (a=0x632410, w=10000000000000000000) at crypto/bn/bn_word.c:85
+85	        d = bn_div_words(ret, l, w);
+bn_div_words (h=0, l=19, d=10000000000000000000) at crypto/bn/asm/x86_64-gcc.c:199
+199	 asm("divq      %4":"=a"(ret), "=d"(waste)
+app: No such file or directory.
+Reading symbols from app...
+Breakpoint 1 at 0x403213: file t1.c, line 38.
+Starting program: /home/tam/Desktop/bignum/app 
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, main () at t1.c:38
+38		a1=bn_div_words1(c1,b1,w1);
+42	}
+Too few arguments in function call.
+
+Program received signal SIGSEGV, Segmentation fault.
+0x0000000000403bc2 in BN_num_bits (a=0xe6ec64d841d) at crypto/bn/bn_lib.c:167
+167	    int i = a->top - 1;
+The program being debugged was signaled while in a function called from GDB.
+GDB remains in the frame where the signal was received.
+To change this behavior use "set unwindonsignal on".
+Evaluation of the expression containing the function
+(BN_bn2dec) will be abandoned.
+When the function is done executing, GDB will silently stop.
+Reading symbols from app...
+Breakpoint 1 at 0x403233: file t1.c, line 42.
+No symbol "a1" in current context.
+No symbol "a1" in current context.
+Starting program: /home/tam/Desktop/bignum/app 
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, main () at t1.c:42
+42	}
+$1 = 15868936160285
+$2 = 3487334
+$3 = 787654654654
+$4 = 3487331
+Reading symbols from app...
+Breakpoint 1 at 0x40324e: file t1.c, line 44.
+Starting program: /home/tam/Desktop/bignum/app 
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGFPE, Arithmetic exception.
+0x0000000000403904 in bn_div_words (h=3487334, l=787654654654, d=3487331) at crypto/bn/asm/x86_64-gcc.c:199
+199	 asm("divq      %4":"=a"(ret), "=d"(waste)
+Reading symbols from app...
+Breakpoint 1 at 0x40324f: file t1.c, line 44.
+Starting program: /home/tam/Desktop/bignum/app 
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, main () at t1.c:44
+44	}
+$1 = 18446705295434877
+Reading symbols from app...
+Breakpoint 1 at 0x40322f: file t1.c, line 41.
+Starting program: /home/tam/Desktop/bignum/app 
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, main () at t1.c:41
+41		a1=bn_div_words(c1,b1,w1);
+$1 = 18446705295434877
+Reading symbols from app...
+Breakpoint 1 at 0x4032dc: file t1.c, line 57.
+Starting program: /home/tam/Desktop/bignum/app 
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, main () at t1.c:57
+57	}
+$1 = 174512
+$2 = 65858
+Starting program: /home/tam/Desktop/bignum/app 
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, main () at t1.c:57
+57	}
+$3 = 64394
+$4 = 170550
+Please answer y or n.
+Reading symbols from app...
+Breakpoint 1 at 0x403225: file t1.c, line 61.
+Starting program: /home/tam/Desktop/bignum/app 
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, main () at t1.c:61
+61	}
+Reading symbols from app...
+Breakpoint 1 at 0x403214: file t1.c, line 59.
+Starting program: /home/tam/Desktop/bignum/app 
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, main () at t1.c:59
+59		BN_num_bits_word(b1);
+BN_num_bits_word (l=787654654654) at crypto/bn/bn_lib.c:93
+93	    int bits = (l != 0);
+96	    x = l >> 32;
+Reading symbols from app...
+Breakpoint 1 at 0x403214: file t1.c, line 59.
+Starting program: /home/tam/Desktop/bignum/app 
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, main () at t1.c:59
+59		BN_num_bits_word(b1);
+BN_num_bits_word (l=787654654654) at crypto/bn/bn_lib.c:93
+93	    int bits = (l != 0);
+96	    x = l >> 32;
+$1 = 1
+97	    mask = (0 - x) & BN_MASK2;
+$2 = 183
+$3 = 18446744073709551433
+98	    mask = (0 - (mask >> (BN_BITS2 - 1)));
+$4 = 18446744073709551433
+99	    bits += 32 & mask;
+$5 = 18446744073709551615
+Run till exit from #0  BN_num_bits_word (l=787654654654) at crypto/bn/bn_lib.c:99
+0x0000000000403220 in main () at t1.c:59
+59		BN_num_bits_word(b1);
+Value returned is $6 = 40
+61	}
+Reading symbols from app...
+$1 = 328
+Starting program: /home/tam/Desktop/bignum/app 
+[Inferior 1 (process 66518) exited normally]
+Breakpoint 1 at 0x401a6f: file basic.c, line 328.
+Starting program: /home/tam/Desktop/bignum/app 
+
+Breakpoint 1, main () at basic.c:328
+328	   BN_div_word(b,326893u);
+BN_div_word (a=0x4052a0, w=326893) at basic.c:155
+155	   unsigned long ret = 0;
+Run till exit from #0  BN_div_word (a=0x4052a0, w=326893) at basic.c:155
+0x0000000000401a80 in main () at basic.c:328
+328	   BN_div_word(b,326893u);
+Value returned is $2 = 0
+$3 = {
+  a = 0x4052c0,
+  last = 2,
+  max = 7
+}
+`/home/tam/Desktop/bignum/app' has changed; re-reading symbols.
+Starting program: /home/tam/Desktop/bignum/app 
+
+Breakpoint 1, main () at basic.c:329
+329	   r=BN_div_word(b,326893u);
+331	}
+$4 = 0
+Reading symbols from app...
+Breakpoint 1 at 0x401a89: file basic.c, line 331.
+Starting program: /home/tam/Desktop/bignum/app 
+
+Breakpoint 1, main () at basic.c:331
+331	}
+$1 = 0
+Reading symbols from app...
+Breakpoint 1 at 0x401a6f: file basic.c, line 329.
+Starting program: /home/tam/Desktop/bignum/app 
+
+Breakpoint 1, main () at basic.c:329
+329	   r=BN_div_word(b,326893u);
+$1 = 140737488347376
+`/home/tam/Desktop/bignum/app' has changed; re-reading symbols.
+Starting program: /home/tam/Desktop/bignum/app 
+
+Breakpoint 1, main () at basic.c:329
+329	   r=BN_div_word(b,326893);
+331	}
+$2 = 0
+Starting program: /home/tam/Desktop/bignum/app 
+
+Breakpoint 1, main () at basic.c:329
+329	   r=BN_div_word(b,326893);
+BN_div_word (a=0x4052a0, w=326893) at basic.c:155
+155	   unsigned long ret = 0;
+164	   for (i = a->last - 1; i >= 0; i--) {
+167	      l = a->a[i];
+168	      d = bn_div_words(ret, l, w);
+169	      ret = (l - ((d * w) & BN_MASK2)) & BN_MASK2;
+170	      a->a[i] = d;
+$3 = 33309
+Reading symbols from app...
+Breakpoint 1 at 0x401a6f: file basic.c, line 329.
+Starting program: /home/tam/Desktop/bignum/app 
+
+Breakpoint 1, main () at basic.c:329
+329	   r=BN_div_word(b,326893);
+BN_div_word (a=0x4052a0, w=326893) at basic.c:155
+155	   unsigned long ret = 0;
+164	   for (i = a->last - 1; i >= 0; i--) {
+167	      l = a->a[i];
+168	      d = bn_div_words(ret, l, w);
+169	      ret = (l - ((d * w) & BN_MASK2)) & BN_MASK2;
+170	      a->a[i] = d;
+$1 = 33309
+164	   for (i = a->last - 1; i >= 0; i--) {
+167	      l = a->a[i];
+168	      d = bn_div_words(ret, l, w);
+169	      ret = (l - ((d * w) & BN_MASK2)) & BN_MASK2;
+170	      a->a[i] = d;
+164	   for (i = a->last - 1; i >= 0; i--) {
+174	   if ((a->last > 0) && (a->a[a->last - 1] == 0))
+$2 = 80308
+Reading symbols from app...
+Breakpoint 1 at 0x401a80: file basic.c, line 330.
+Starting program: /home/tam/Desktop/bignum/app 
+
+Breakpoint 1, main () at basic.c:330
+330	}
+__libc_start_main (main=0x401a21 <main>, argc=1, argv=0x7fffffffe0f8, init=<optimized out>, fini=<optimized out>, rtld_fini=<optimized out>, 
+    stack_end=0x7fffffffe0e8) at ../csu/libc-start.c:342
+342	../csu/libc-start.c: No such file or directory.
+No symbol "ret" in current context.
+Starting program: /home/tam/Desktop/bignum/app 
+
+Breakpoint 1, main () at basic.c:330
+330	}
+No symbol "ret" in current context.
+Starting program: /home/tam/Desktop/bignum/app 
+
+Breakpoint 1, main () at basic.c:330
+330	}
+No symbol "ret" in current context.
+No symbol "rt" in current context.
+$1 = 80308
+`/home/tam/Desktop/bignum/app' has changed; re-reading symbols.
+Starting program: /home/tam/Desktop/bignum/app 
+
+Breakpoint 1, main () at basic.c:330
+330	}
+$2 = 473972060242202
+`/home/tam/Desktop/bignum/app' has changed; re-reading symbols.
+Starting program: /home/tam/Desktop/bignum/app 
+
+Breakpoint 1, main () at basic.c:329
+329	   c1=bn2dec(b);
+
+Program received signal SIGSEGV, Segmentation fault.
+0x0000000000401854 in BN_is_zero (a=0x2) at basic.c:243
+243	   return (a->a[0] == 0 && a->last==1);
+Reading symbols from app...
+Breakpoint 1 at 0x401a7b: file basic.c, line 331.
+Starting program: /home/tam/Desktop/bignum/app 
+
+Program received signal SIGSEGV, Segmentation fault.
+0x0000000000401854 in BN_is_zero (a=0x2) at basic.c:243
+243	   return (a->a[0] == 0) && (a->last==1);
+#0  0x0000000000401854 in BN_is_zero (a=0x2) at basic.c:243
+#1  0x0000000000401994 in bn2dec (a=0x4052a0) at basic.c:277
+#2  0x0000000000401a72 in main () at basic.c:329
+`/home/tam/Desktop/bignum/app' has changed; re-reading symbols.
+Starting program: /home/tam/Desktop/bignum/app 
+
+Breakpoint 1, main () at basic.c:331
+331	   c1=bn2dec(b);
+
+Program received signal SIGSEGV, Segmentation fault.
+0x0000000000401869 in BN_is_zero (a=0x2) at basic.c:245
+245	   return a->last==0;
+#0  0x0000000000401869 in BN_is_zero (a=0x2) at basic.c:245
+#1  0x0000000000401991 in bn2dec (a=0x4052a0) at basic.c:279
+#2  0x0000000000401a6f in main () at basic.c:331
+Reading symbols from app...
+Breakpoint 1 at 0x401a63: file basic.c, line 331.
+Starting program: /home/tam/Desktop/bignum/app 
+
+Breakpoint 1, main () at basic.c:331
+warning: Source file is more recent than executable.
+331	   c1=bn2dec(b);
+bn2dec (a=0x4052a0) at basic.c:249
+249	   int i = 0, num, ok = 0;
+250	   char *buf = NULL;
+252	   bignum *t = NULL;
+253	   unsigned long *bn_data = NULL, *lp;
+264	   i = BN_num_bits(a) * 3;
+265	   num = (i / 10 + i / 1000 + 1) + 1;
+268	   bn_data_num = num / BN_DEC_NUM + 1;
+269	   bn_data = malloc(bn_data_num * sizeof(unsigned long));
+272	   buf = malloc(num + 3);
+274	   t = BN_dup(a);
+276	   p = buf;
+$1 = (bignum *) 0x2
+Cannot access memory at address 0x2
+`/home/tam/Desktop/bignum/app' has changed; re-reading symbols.
+Starting program: /home/tam/Desktop/bignum/app 
+
+Breakpoint 1, main () at basic.c:332
+332	   c1=bn2dec(b);
+334	}
+$2 = 0x405330 "3268934881539845686973924732429578"
+`/home/tam/Desktop/bignum/app' has changed; re-reading symbols.
+Starting program: /home/tam/Desktop/bignum/app 
+
+Breakpoint 1, main () at basic.c:332
+332	   c1=bn2dec(b);
+334	}
+$3 = 0x405350 "3268934881539845686343453522332239589854987973924732429578"
+Exception ignored in: <gdb._GdbOutputFile object at 0x7f35d303fb80>
+Traceback (most recent call last):
+  File "/usr/share/gdb/python/gdb/__init__.py", line 43, in flush
+    def flush(self):
+KeyboardInterrupt: 
