@@ -71,6 +71,7 @@ int BN_mul_word(bignum *a, unsigned long w){
       //这里并不判断last++是否会大于max
       a->a[a->last++] = c1;
    }
+   return 1;
 }
 
 
@@ -230,6 +231,7 @@ int BN_num_bits(bignum *a){
 }
 
 bignum *BN_dup(const bignum *a){
+   //返回a的副本的指针
    bignum*b=bn_new(a->max);
 
    b->last=a->last;
@@ -308,6 +310,117 @@ char *bn2dec(bignum *a){
       return buf;
 }
 
+int BN_add(bignum *r, bignum *a, bignum *b){
+   //上一次的进位标志
+   int carry=0;
+   //这一次的进位标志
+   int carry1=0;
+   int rlast;
+   bignum *ret;
+   if(a->last==0){
+
+      r->last=b->last;
+
+      for (int i=0;i<b->last;i++) {
+         r->a[i]=b->a[i];
+      }
+
+      return 1;
+
+   }else if(b->last==0){
+      r->last=a->last;
+
+      for (int i=0;i<a->last;i++) {
+         r->a[i]=a->a[i];
+      }
+
+      return 1;
+
+   }else{
+      //这里有bug
+      if(a->last>=b->last){
+         ret=BN_dup(a);
+
+         rlast=b->last;
+      }else{
+         ret=BN_dup(a);
+         
+         rlast=a->last;
+      }
+
+      for(int i=0;i<rlast;i++){
+         //不止要判断一次进位
+         ret->a[i] = a->a[i] + b->a[i];
+         carry1 = (ret->a[i] > a->a[i]) ? 0 : 1;
+
+         ret->a[i] = ret->a[i]+carry;
+         if(carry1==1){
+            carry=carry1;
+            continue;
+         }else{
+            carry = (ret->a[i] > a->a[i]) ? 0 : 1;
+         }
+
+      }
+      for(int i=rlast;i<r->last;i++){
+         r->a[i]+=carry;
+         carry = (r->a[i] > carry) ? 0 : 1;
+      }
+
+      r->last++;
+      r->a[r->last-1]=carry;
+
+   }
+}
+
+int BN_lshift64(bignum *a,int w){
+   bignum *r=bn_new(a->max+w);
+   for(int i=0;i<w;i++){
+      r->a[i]=0;
+   }
+
+   for(int i=w;i<(a->last+w);i++){
+      r->a[i]=a->a[i-w];
+   }
+
+   a->max=a->max+w;
+   a->last=(a->last+w);
+   free(a->a);
+   a->a=r->a;
+}
+
+bignum *BN_Zero(int digits){
+   bignum *r;
+   r=bn_new(digits);
+   r->last=0;
+   return r;
+}
+
+bignum *BN_mul(bignum *a, bignum *b){
+   //拆分b
+   bignum **t=malloc(sizeof(bignum*)*(b->last));
+
+   bignum *ret=BN_Zero(a->last+b->last+3);
+
+   for(int i=0;i<b->last;i++){
+      t[i]=BN_dup(a);
+      BN_mul_word(t[i],b->a[i]);
+
+      BN_lshift64(t[i],i);
+      BN_add(ret,ret,t[i]);
+
+      /*调试*/
+      if(i==0){
+         bn2dec(ret);
+      }
+   }
+   //t[0]所指向的大整数最小，将所有t[i]相加
+
+   free(t);
+   return ret;
+}
+
+
 
 int main(){
    // /*测试mul函数*/
@@ -322,13 +435,24 @@ int main(){
 
    char *c="123979";
    char *c1;
+   char *c2;
+   char *c3;
+   
+
+   bignum *a;
    bignum *b;
+   bignum *r;
    int len=sizeof(*b);
    len=sizeof(b);
    len=sizeof(bignum);
-   dec2bn(&b,"3268934881539845686343453522332239589854987973924732429578");
-   unsigned long r;
+   dec2bn(&a,"32512356156213325621365123652135625654");
+   dec2bn(&b,"32689348815398456863434535223322395898549879739247");
+   // unsigned long r;
 
-   c1=bn2dec(b);
+   c1=bn2dec(a);
+   c2=bn2dec(b);
+
+   r=BN_mul(a,b);
+   c3=bn2dec(r);
 
 }

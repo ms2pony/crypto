@@ -1,3 +1,12 @@
+# 下载openssl仓库
+git clone https://github.com/openssl/openssl.git
+## 有问题的分支，`./config`执行时会出错，OpenSSL_1_1_0g等分支会有问题
+## 切换到合适分支
+git checkout -b 1.1.0stable origin/OpenSSL_1_1_0-stable
+## 某些分支名会出现前面有`head`的问题，解决方法如下
+git branch -m OpenSSL_1_1_0f openssl-1.1.0f # 改分支名，避免混淆
+## 修改makefile中的cflag，此处省略
+
 # `openssl`目录下
 gcc -I. -Icrypto/include -Iinclude -gdwarf-2 -g3 -c -o crypto/bn/bn_asm.o crypto/bn/bn_asm1.c
 
