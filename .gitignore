@@ -3,3 +3,4 @@ app
 openssl
 .gdb*
 *.o
+a.out
