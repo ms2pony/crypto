@@ -315,8 +315,10 @@ int BN_add(bignum *r, bignum *a, bignum *b){
    int carry=0;
    //这一次的进位标志
    int carry1=0;
+   //较小的数的last
    int rlast;
    bignum *ret;
+   //加法中一个数为0或者都为零的情况，然后是正常情况
    if(a->last==0){
 
       r->last=b->last;
@@ -343,33 +345,51 @@ int BN_add(bignum *r, bignum *a, bignum *b){
 
          rlast=b->last;
       }else{
-         ret=BN_dup(a);
+         ret=BN_dup(b);
          
          rlast=a->last;
       }
 
       for(int i=0;i<rlast;i++){
-         //不止要判断一次进位
+         //三个数相加，不止要判断一次进位
          ret->a[i] = a->a[i] + b->a[i];
-         carry1 = (ret->a[i] > a->a[i]) ? 0 : 1;
+         carry1 = (ret->a[i] >= a->a[i]) ? 0 : 1;
 
          ret->a[i] = ret->a[i]+carry;
          if(carry1==1){
             carry=carry1;
             continue;
          }else{
-            carry = (ret->a[i] > a->a[i]) ? 0 : 1;
+            carry = (ret->a[i] >= a->a[i]) ? 0 : 1;
          }
 
       }
-      for(int i=rlast;i<r->last;i++){
-         r->a[i]+=carry;
-         carry = (r->a[i] > carry) ? 0 : 1;
+      for(int i=rlast;i<ret->last;i++){
+         ret->a[i]+=carry;
+         carry = (ret->a[i] >= carry) ? 0 : 1;
       }
 
-      r->last++;
-      r->a[r->last-1]=carry;
+      if(carry==1){
 
+         // 这个if判断last是否大于max
+         if(ret->last>ret->max){
+            ret->max+=1;
+            free(ret->a);
+            ret->a=(unsigned long*)malloc(sizeof(unsigned long)*(ret->max+1));
+         }
+
+         ret->last++;
+         ret->a[r->last-1]=carry;
+      }
+
+      
+
+      //将ret赋值给r
+      r->last=ret->last;
+      r->max=ret->max;
+      free(r->a);
+      r->a=ret->a;
+      
    }
 }
 
@@ -410,7 +430,7 @@ bignum *BN_mul(bignum *a, bignum *b){
       BN_add(ret,ret,t[i]);
 
       /*调试*/
-      if(i==0){
+      if(i==1){
          bn2dec(ret);
       }
    }
