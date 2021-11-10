@@ -1,25 +1,24 @@
-#include<stdio.h>
-#include<stdlib.h>
-#include <ctype.h>
+#include<basic.h>
+/*
+输入：a,b； a、b可以都为64位，因为代码中mulq
+输出：low(低32位)，high高(32位)
+作用：得到a*b的结果
 
-#  define BN_DEC_CONV     (10000000000000000000UL)
-#  define BN_DEC_NUM      19
-#  define BN_MASK2        (0xffffffffffffffffL)
-
-typedef struct{
-   unsigned long *a;	/* Pointer to an array of 'BN_BITS2' bit */
-   int last;	/* Index of last used d +1. */
-   int max;	/* Size of the a array. */
-}bignum;
-
-/*引用openssl代码，在openssl/crypto/bn/bn_lcl.h*/
+引用openssl代码，在openssl/crypto/bn/bn_lcl.h
+*/
 #define BN_UMULT_LOHI(low,high,a,b)  \
         asm ("mulq      %3"             \
                 : "=a"(low),"=d"(high)  \
                 : "a"(a),"g"(b)         \
                 : "cc");
 
-/*引用openssl代码，在openssl/crypto/bn/bn_lcl.h*/
+/*
+输入：a,w
+输出：结果r(64bit),进位值c(64bit)
+得到a*b的结果r和进位值c(进位值c的位数范围是0-63bit)
+
+引用openssl代码，在openssl/crypto/bn/bn_lcl.h
+*/
 #define mul(r,a,w,c)    {               \
         unsigned long high,low,ret,ta=(a);   \
         BN_UMULT_LOHI(low,high,w,ta);   \
@@ -29,15 +28,30 @@ typedef struct{
         (r) =  ret;                     \
         }
 
-bignum *bn_new(int digits){
+/*
+输入：digits，分配能表示多少精度，一个精度为`unsigned long`能表示的bit数
+输出：一个指针，它指向一个bignum实例，实例已分配了内存空间，并初始化了所有成员的bignum类型
+
+给bignum类型的新实例分配内存
+*/
+bignum *bn_new(int digits)
+{
    bignum *ret;
    ret=(bignum *)malloc(sizeof(*ret));
+   //成员a也需要分配内存
    ret->a=(unsigned long*)malloc(sizeof(unsigned long)*digits);
    ret->max=digits;
    return ret;
 }
 
-int BN_add_word(bignum *a, unsigned long w){
+/*
+输入：大整数bignum，unsigned long
+输出：bignum+unsigned
+
+得到bignum+unsigned long的结果
+*/
+int BN_add_word(bignum *a, unsigned long w)
+{
    unsigned long l;
    int i;
 
@@ -56,7 +70,14 @@ int BN_add_word(bignum *a, unsigned long w){
    return (1);
 }
 
-int BN_mul_word(bignum *a, unsigned long w){
+/*
+输入：大整数bignum，unsigned long
+输出：bignum*unsigned
+
+得到(bignum *) * unsigned long的结果
+*/
+int BN_mul_word(bignum *a, unsigned long w)
+{
    unsigned long c1=0;
    int num=a->last;
    unsigned long *i=a->a;
@@ -74,7 +95,12 @@ int BN_mul_word(bignum *a, unsigned long w){
    return 1;
 }
 
+/*
+输入：const char *
+输出：bignum **
 
+人能看的大数的字符串形式转换成bignum结构体形式
+*/
 int dec2bn(bignum **bn, const char *a)
 {
    bignum *ret = NULL;
@@ -140,11 +166,18 @@ int dec2bn(bignum **bn, const char *a)
 
 }
 
+/*
+输入：unsigned long h 高64位, unsigned long l 低64位，unsigned long d 余数
+输出：ret
+
+(h,l)128位数除d，得到商ret
+*/
 unsigned long bn_div_words(unsigned long h, unsigned long l, unsigned long d)
 {
-   unsigned long ret, waste;
+   unsigned long ret, waste;  //ret是商，waste是余数
 
-   asm("divq      %4":"=a"(ret), "=d"(waste)
+   asm("divq      %4"
+   :"=a"(ret), "=d"(waste)
    :     "a"(l), "d"(h), "r"(d)
    :     "cc");
 
@@ -152,7 +185,14 @@ unsigned long bn_div_words(unsigned long h, unsigned long l, unsigned long d)
    return ret;
 }
 
-unsigned long BN_div_word(bignum *a, unsigned long w){
+/*
+输入：bignum *a, unsigned long w
+输出：bignum *a，返回值 unsigned long
+
+大数bignum除一个精度的数，得到商bignum *a和余数ret
+*/
+unsigned long BN_div_word(bignum *a, unsigned long w)
+{
    unsigned long ret = 0;
    int i, j;
 
@@ -181,7 +221,14 @@ unsigned long BN_div_word(bignum *a, unsigned long w){
    return (ret);
 }
 
-int BN_num_bits_word(unsigned long l){
+/*
+输入：unsigned long
+输出：该数的bit数int
+
+得到unsigned long的bit位数
+*/
+int BN_num_bits_word(unsigned long l)
+{
    unsigned long x, mask;
    int bits = (l != 0);
 
@@ -225,12 +272,26 @@ int BN_num_bits_word(unsigned long l){
    return bits;
 }
 
-int BN_num_bits(bignum *a){
+/*
+输入：bignum
+输出：该大数的bit位数int
+
+得到bignum *a的bit位数
+*/
+int BN_num_bits(bignum *a)
+{
    int i = a->last - 1;
    return ((i * 64) + BN_num_bits_word(a->a[i]));
 }
 
-bignum *BN_dup(const bignum *a){
+/*
+输入：bignum *a
+输出：返回值bignum
+
+得到除了地址相同，其他信息与bignum *a的bitnum类型实例
+*/
+bignum *BN_dup(const bignum *a)
+{
    //返回a的副本的指针
    bignum*b=bn_new(a->max);
 
@@ -244,11 +305,25 @@ bignum *BN_dup(const bignum *a){
 
 }
 
-int BN_is_zero(const bignum *a){
+/*
+输入：bignum *a
+输出：返回值int
+
+通过bignum的成员变量last判断bignum *a是否为0
+*/
+int BN_is_zero(const bignum *a)
+{
    return a->last == 0;
 }
 
-char *bn2dec(bignum *a){
+/*
+输入：bignum *a
+输出：返回值char *
+
+返回bignum *a所表示大数的人能看懂的字符串
+*/
+char *bn2dec(bignum *a)
+{
    int i = 0, num, ok = 0;
    char *buf = NULL;
    char *p;
@@ -310,7 +385,14 @@ char *bn2dec(bignum *a){
       return buf;
 }
 
-int BN_add(bignum *r, bignum *a, bignum *b){
+/*
+输入：bignum *a，bignum *b
+输出：bignum *r
+
+得到bignum *a + bignum *b
+*/
+int BN_add(bignum *r, bignum *a, bignum *b)
+{
    //上一次的进位标志
    int carry=0;
    //这一次的进位标志
@@ -382,8 +464,6 @@ int BN_add(bignum *r, bignum *a, bignum *b){
          ret->a[r->last-1]=carry;
       }
 
-      
-
       //将ret赋值给r
       r->last=ret->last;
       r->max=ret->max;
@@ -393,6 +473,12 @@ int BN_add(bignum *r, bignum *a, bignum *b){
    }
 }
 
+/*
+输入：bignum *a, int w
+输出：bignum *a
+
+令bignum *a左移w个精度
+*/
 int BN_lshift64(bignum *a,int w){
    bignum *r=bn_new(a->max+w);
    for(int i=0;i<w;i++){
@@ -409,6 +495,12 @@ int BN_lshift64(bignum *a,int w){
    a->a=r->a;
 }
 
+/*
+输入：int digits
+输出：返回值bignum *
+
+创造一个值为0的bignum类型实例，返回指向该实例的指针
+*/
 bignum *BN_Zero(int digits){
    bignum *r;
    r=bn_new(digits);
@@ -416,6 +508,12 @@ bignum *BN_Zero(int digits){
    return r;
 }
 
+/*
+输入：bignum *a, bignum *b
+输出：返回值bignum *
+
+计算bignum *a * bignum *b
+*/
 bignum *BN_mul(bignum *a, bignum *b){
    //拆分b
    bignum **t=malloc(sizeof(bignum*)*(b->last));
@@ -442,37 +540,37 @@ bignum *BN_mul(bignum *a, bignum *b){
 
 
 
-int main(){
-   // /*测试mul函数*/
-   // unsigned long r,a,w,c,temp;
-   // a=1844674407370955161;
-   // w=1234;
+// int main(){
+//    // /*测试mul函数*/
+//    // unsigned long r,a,w,c,temp;
+//    // a=1844674407370955161;
+//    // w=1234;
 
-   // mul(r,a,w,c);
+//    // mul(r,a,w,c);
 
-   // /*溢出，结果为79，unsigned long 长度为64个bit*/
-   // temp=18446744073709551615+80; 
+//    // /*溢出，结果为79，unsigned long 长度为64个bit*/
+//    // temp=18446744073709551615+80; 
 
-   char *c="123979";
-   char *c1;
-   char *c2;
-   char *c3;
+//    char *c="123979";
+//    char *c1;
+//    char *c2;
+//    char *c3;
    
 
-   bignum *a;
-   bignum *b;
-   bignum *r;
-   int len=sizeof(*b);
-   len=sizeof(b);
-   len=sizeof(bignum);
-   dec2bn(&a,"32512356156213325621365123652135625654");
-   dec2bn(&b,"32689348815398456863434535223322395898549879739247");
-   // unsigned long r;
+//    bignum *a;
+//    bignum *b;
+//    bignum *r;
+//    int len=sizeof(*b);
+//    len=sizeof(b);
+//    len=sizeof(bignum);
+//    dec2bn(&a,"32512356156213325621365123652135625654");
+//    dec2bn(&b,"32689348815398456863434535223322395898549879739247");
+//    // unsigned long r;
 
-   c1=bn2dec(a);
-   c2=bn2dec(b);
+//    c1=bn2dec(a);
+//    c2=bn2dec(b);
 
-   r=BN_mul(a,b);
-   c3=bn2dec(r);
+//    r=BN_mul(a,b);
+//    c3=bn2dec(r);
 
-}
+// }
