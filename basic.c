@@ -308,27 +308,192 @@ char *bn2dec(bignum *a){
       return buf;
 }
 
+/*
+输入：bignum *a，bignum *b
+输出：bignum *r
 
-int main(){
-   // /*测试mul函数*/
-   // unsigned long r,a,w,c,temp;
-   // a=1844674407370955161;
-   // w=1234;
+得到bignum *a + bignum *b
+*/
+int BN_add(bignum *r, bignum *a, bignum *b)
+{
+   //上一次的进位标志
+   int carry=0;
+   //这一次的进位标志
+   int carry1=0;
+   //较小的数的last
+   int rlast;
+   bignum *ret;
+   //加法中一个数为0或者都为零的情况，然后是正常情况
+   if(a->last==0){
 
-   // mul(r,a,w,c);
+      r->last=b->last;
 
-   // /*溢出，结果为79，unsigned long 长度为64个bit*/
-   // temp=18446744073709551615+80; 
+      for (int i=0;i<b->last;i++) {
+         r->a[i]=b->a[i];
+      }
 
-   char *c="123979";
-   char *c1;
-   bignum *b;
-   int len=sizeof(*b);
-   len=sizeof(b);
-   len=sizeof(bignum);
-   dec2bn(&b,"3268934881539845686343453522332239589854987973924732429578");
-   unsigned long r;
+      return 1;
 
-   c1=bn2dec(b);
+   }else if(b->last==0){
+      r->last=a->last;
 
+      for (int i=0;i<a->last;i++) {
+         r->a[i]=a->a[i];
+      }
+
+      return 1;
+
+   }else{
+      //这里有bug
+      if(a->last>=b->last){
+         ret=BN_dup(a);
+
+         rlast=b->last;
+      }else{
+         ret=BN_dup(b);
+         
+         rlast=a->last;
+      }
+
+      for(int i=0;i<rlast;i++){
+         //三个数相加，不止要判断一次进位
+         ret->a[i] = a->a[i] + b->a[i];
+         carry1 = (ret->a[i] >= a->a[i]) ? 0 : 1;
+
+         ret->a[i] = ret->a[i]+carry;
+         if(carry1==1){
+            carry=carry1;
+            continue;
+         }else{
+            carry = (ret->a[i] >= a->a[i]) ? 0 : 1;
+         }
+
+      }
+      for(int i=rlast;i<ret->last;i++){
+         ret->a[i]+=carry;
+         carry = (ret->a[i] >= carry) ? 0 : 1;
+      }
+
+      if(carry==1){
+
+         // 这个if判断last是否大于max
+         if(ret->last>ret->max){
+            ret->max+=1;
+            free(ret->a);
+            ret->a=(unsigned long*)malloc(sizeof(unsigned long)*(ret->max+1));
+         }
+
+         ret->last++;
+         ret->a[r->last-1]=carry;
+      }
+
+      //将ret赋值给r
+      r->last=ret->last;
+      r->max=ret->max;
+      free(r->a);
+      r->a=ret->a;
+      
+   }
 }
+
+/*
+输入：bignum *a, int w
+输出：bignum *a
+
+令bignum *a左移w个精度
+*/
+int BN_lshift64(bignum *a,int w){
+   bignum *r=bn_new(a->max+w);
+   for(int i=0;i<w;i++){
+      r->a[i]=0;
+   }
+
+   for(int i=w;i<(a->last+w);i++){
+      r->a[i]=a->a[i-w];
+   }
+
+   a->max=a->max+w;
+   a->last=(a->last+w);
+   free(a->a);
+   a->a=r->a;
+}
+
+/*
+输入：int digits
+输出：返回值bignum *
+
+创造一个值为0的bignum类型实例，返回指向该实例的指针
+*/
+bignum *BN_Zero(int digits){
+   bignum *r;
+   r=bn_new(digits);
+   r->last=0;
+   return r;
+}
+
+/*
+输入：bignum *a, bignum *b
+输出：返回值bignum *
+
+计算bignum *a * bignum *b
+*/
+bignum *BN_mul(bignum *a, bignum *b){
+   //拆分b
+   bignum **t=malloc(sizeof(bignum*)*(b->last));
+
+   bignum *ret=BN_Zero(a->last+b->last+3);
+
+   for(int i=0;i<b->last;i++){
+      t[i]=BN_dup(a);
+      BN_mul_word(t[i],b->a[i]);
+
+      BN_lshift64(t[i],i);
+      BN_add(ret,ret,t[i]);
+
+      /*调试*/
+      if(i==1){
+         bn2dec(ret);
+      }
+   }
+   //t[0]所指向的大整数最小，将所有t[i]相加
+
+   free(t);
+   return ret;
+}
+
+
+
+// int main(){
+//    // /*测试mul函数*/
+//    // unsigned long r,a,w,c,temp;
+//    // a=1844674407370955161;
+//    // w=1234;
+
+//    // mul(r,a,w,c);
+
+//    // /*溢出，结果为79，unsigned long 长度为64个bit*/
+//    // temp=18446744073709551615+80; 
+
+//    char *c="123979";
+//    char *c1;
+//    char *c2;
+//    char *c3;
+   
+
+//    bignum *a;
+//    bignum *b;
+//    bignum *r;
+//    int len=sizeof(*b);
+//    len=sizeof(b);
+//    len=sizeof(bignum);
+//    dec2bn(&a,"32512356156213325621365123652135625654");
+//    dec2bn(&b,"32689348815398456863434535223322395898549879739247");
+//    // unsigned long r;
+
+//    c1=bn2dec(a);
+//    c2=bn2dec(b);
+
+//    r=BN_mul(a,b);
+//    c3=bn2dec(r);
+
+// }
