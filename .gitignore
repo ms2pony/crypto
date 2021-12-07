@@ -4,3 +4,5 @@ openssl
 .gdb*
 *.o
 a.out
+temp
+perf.data
