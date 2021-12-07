@@ -1,0 +1,18 @@
+Reading symbols from ./a.out...
+Breakpoint 1 at 0x1144: file t1.c, line 5.
+Starting program: /home/tam/Desktop/bignum/test/avx2-examples/a.out 
+
+Breakpoint 1, main () at t1.c:5
+5	}
+=> 0x0000555555555144 <main+27>:	c9	leaveq 
+   0x0000555555555145 <main+28>:	c3	retq   
+$1 = {[0] = 0, [1] = 0, [2] = 0, [3] = 0}
+Reading symbols from ./a.out...
+Breakpoint 1 at 0x1148: file t1.c, line 5.
+Starting program: /home/tam/Desktop/bignum/test/avx2-examples/a.out 
+
+Breakpoint 1, main () at t1.c:5
+5	}
+=> 0x0000555555555148 <main+31>:	c9	leaveq 
+   0x0000555555555149 <main+32>:	c3	retq   
+$1 = {[0] = 1, [1] = 0, [2] = 0, [3] = 0}
