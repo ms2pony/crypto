@@ -1,39 +1,11 @@
-#include<stdio.h>
-#include<stdlib.h>
-#include <ctype.h>
-
-#  define BN_DEC_CONV     (10000000000000000000UL)
-#  define BN_DEC_NUM      19
-#  define BN_MASK2        (0xffffffffffffffffL)
-
-typedef struct{
-   unsigned long *a;	/* Pointer to an array of 'BN_BITS2' bit */
-   int last;	/* Index of last used d +1. */
-   int max;	/* Size of the a array. */
-}bignum;
-
-/*引用openssl代码，在openssl/crypto/bn/bn_lcl.h*/
-#define BN_UMULT_LOHI(low,high,a,b)  \
-        asm ("mulq      %3"             \
-                : "=a"(low),"=d"(high)  \
-                : "a"(a),"g"(b)         \
-                : "cc");
-
-/*引用openssl代码，在openssl/crypto/bn/bn_lcl.h*/
-#define mul(r,a,w,c)    {               \
-        unsigned long high,low,ret,ta=(a);   \
-        BN_UMULT_LOHI(low,high,w,ta);   \
-        ret =  low + (c);               \
-        (c) =  high;                    \
-        (c) += (ret<low)?1:0;           \
-        (r) =  ret;                     \
-        }
+#include <basic.h>
 
 bignum *bn_new(int digits){
    bignum *ret;
-   ret=(bignum *)malloc(sizeof(*ret));
-   ret->a=(unsigned long*)malloc(sizeof(unsigned long)*digits);
-   ret->max=digits;
+   ret = (bignum *)malloc(sizeof(*ret));
+   //成员a也需要分配内存
+   ret->a = (unsigned long *)malloc(sizeof(unsigned long) * digits);
+   ret->max = digits;
    return ret;
 }
 
@@ -43,31 +15,42 @@ int BN_add_word(bignum *a, unsigned long w){
 
    w &= BN_MASK2;
 
-   for (i = 0; w != 0 && i < a->last; i++) {
+   for (i = 0; w != 0 && i < a->last; i++)
+   {
       a->a[i] = l = (a->a[i] + w) & BN_MASK2;
       w = (w > l) ? 1 : 0;
    }
-   if (w && i == a->last) {
+   if (w && i == a->last)
+   {
       //不判断last++是否大于max
       a->last++;
       a->a[i] = w;
    }
-   
+
    return (1);
 }
 
-int BN_mul_word(bignum *a, unsigned long w){
-   unsigned long c1=0;
-   int num=a->last;
-   unsigned long *i=a->a;
+/*
+输入：大整数bignum，unsigned long
+输出：bignum*
 
-   while (num) {
-        mul(i[0], i[0], w, c1);
-        i++;
-        num--;
+得到a*w的结果(bignum *)
+*/
+int BN_mul_word(bignum *a, unsigned long w)
+{
+   unsigned long c1 = 0;
+   int num = a->last;
+   unsigned long *i = a->a;
+
+   while (num)
+   {
+      mul(i[0], i[0], w, c1);
+      i++;
+      num--;
    }
 
-   if (c1) {
+   if (c1)
+   {
       //这里并不判断last++是否会大于max
       a->a[a->last++] = c1;
    }
@@ -94,11 +77,11 @@ int dec2bn(bignum **bn, const char *a)
    // }
 
    //isdigit函数检查参数是否为十进制字符串
-    for (i = 0; isdigit((unsigned char)a[i]); i++)
-        continue;
+   for (i = 0; isdigit((unsigned char)a[i]); i++)
+      continue;
 
    // num = i + neg;
-   num=i;
+   num = i;
    if (bn == NULL)
       return (num);
 
@@ -111,17 +94,19 @@ int dec2bn(bignum **bn, const char *a)
    // BN_zero(ret);
 
    /* i is the number of digits, a bit of an over expand */
-   ret=bn_new(i/10+5);
+   ret = bn_new(i / 10 + 5);
 
    j = BN_DEC_NUM - (i % BN_DEC_NUM);
    if (j == BN_DEC_NUM)
       j = 0;
    l = 0;
-   while (--i >= 0) {
+   while (--i >= 0)
+   {
       l *= 10;
       l += *a - '0';
       a++;
-      if (++j == BN_DEC_NUM) {
+      if (++j == BN_DEC_NUM)
+      {
          BN_mul_word(ret, BN_DEC_CONV);
          BN_add_word(ret, l);
          l = 0;
@@ -131,21 +116,20 @@ int dec2bn(bignum **bn, const char *a)
 
    *bn = ret;
 
-
    /* Don't set the negative flag if it's zero. */
-//   if (ret->last != 0)
-//      ret->neg = neg;
+   //   if (ret->last != 0)
+   //      ret->neg = neg;
    return (num);
-
 }
 
 unsigned long bn_div_words(unsigned long h, unsigned long l, unsigned long d)
 {
-   unsigned long ret, waste;
+   unsigned long ret, waste; //ret是商，waste是余数
 
-   asm("divq      %4":"=a"(ret), "=d"(waste)
-   :     "a"(l), "d"(h), "r"(d)
-   :     "cc");
+   asm("divq      %4"
+       : "=a"(ret), "=d"(waste)
+       : "a"(l), "d"(h), "r"(d)
+       : "cc");
 
    //返回商
    return ret;
@@ -163,7 +147,8 @@ unsigned long BN_div_word(bignum *a, unsigned long w){
    if (a->last == 0)
       return 0;
 
-   for (i = a->last - 1; i >= 0; i--) {
+   for (i = a->last - 1; i >= 0; i--)
+   {
       unsigned long l, d;
 
       l = a->a[i];
@@ -229,17 +214,25 @@ int BN_num_bits(bignum *a){
    return ((i * 64) + BN_num_bits_word(a->a[i]));
 }
 
-bignum *BN_dup(const bignum *a){
-   bignum*b=bn_new(a->max);
+/*
+输入：bignum *a
+输出：返回值bignum
 
-   b->last=a->last;
-   b->max=a->max;
+得到除了地址相同，其他信息与bignum *a的bitnum类型实例
+*/
+bignum *BN_dup(const bignum *a)
+{
+   //返回a的副本的指针
+   bignum *b = bn_new(a->max);
 
-   for (int i=0;i<a->last;i++) {
-      b->a[i]=a->a[i];
+   b->last = a->last;
+   b->max = a->max;
+
+   for (int i = 0; i < a->last; i++)
+   {
+      b->a[i] = a->a[i];
    }
    return b;
-
 }
 
 int BN_is_zero(const bignum *a){
@@ -277,7 +270,8 @@ char *bn2dec(bignum *a){
    p = buf;
    lp = bn_data;
 
-   while (!BN_is_zero(t)) {
+   while (!BN_is_zero(t))
+   {
 
       //lp接收的值是从低位开始，BN_div_word返回的是余数
       *lp = BN_div_word(t, BN_DEC_CONV);
@@ -296,13 +290,14 @@ char *bn2dec(bignum *a){
    while (*p)
       p++;
 
-   while (lp != bn_data) {
+   while (lp != bn_data)
+   {
       lp--;
       sprintf(p, "%019lu", *lp);
       while (*p)
-            p++;
+         p++;
    }
-   
+
    ok = 1;
    if (ok)
       return buf;
@@ -317,82 +312,95 @@ char *bn2dec(bignum *a){
 int BN_add(bignum *r, bignum *a, bignum *b)
 {
    //上一次的进位标志
-   int carry=0;
+   int carry = 0;
    //这一次的进位标志
-   int carry1=0;
+   int carry1 = 0;
    //较小的数的last
    int rlast;
    bignum *ret;
    //加法中一个数为0或者都为零的情况，然后是正常情况
-   if(a->last==0){
+   if (a->last == 0)
+   {
 
-      r->last=b->last;
+      r->last = b->last;
 
-      for (int i=0;i<b->last;i++) {
-         r->a[i]=b->a[i];
+      for (int i = 0; i < b->last; i++)
+      {
+         r->a[i] = b->a[i];
       }
 
       return 1;
+   }
+   else if (b->last == 0)
+   {
+      r->last = a->last;
 
-   }else if(b->last==0){
-      r->last=a->last;
-
-      for (int i=0;i<a->last;i++) {
-         r->a[i]=a->a[i];
+      for (int i = 0; i < a->last; i++)
+      {
+         r->a[i] = a->a[i];
       }
 
       return 1;
-
-   }else{
+   }
+   else
+   {
       //这里有bug
-      if(a->last>=b->last){
-         ret=BN_dup(a);
+      if (a->last >= b->last)
+      {
+         ret = BN_dup(a);
 
-         rlast=b->last;
-      }else{
-         ret=BN_dup(b);
-         
-         rlast=a->last;
+         rlast = b->last;
+      }
+      else
+      {
+         ret = BN_dup(b);
+
+         rlast = a->last;
       }
 
-      for(int i=0;i<rlast;i++){
+      for (int i = 0; i < rlast; i++)
+      {
          //三个数相加，不止要判断一次进位
          ret->a[i] = a->a[i] + b->a[i];
          carry1 = (ret->a[i] >= a->a[i]) ? 0 : 1;
 
-         ret->a[i] = ret->a[i]+carry;
-         if(carry1==1){
-            carry=carry1;
+         ret->a[i] = ret->a[i] + carry;
+         if (carry1 == 1)
+         {
+            carry = carry1;
             continue;
-         }else{
+         }
+         else
+         {
             carry = (ret->a[i] >= a->a[i]) ? 0 : 1;
          }
-
       }
-      for(int i=rlast;i<ret->last;i++){
-         ret->a[i]+=carry;
+      for (int i = rlast; i < ret->last; i++)
+      {
+         ret->a[i] += carry;
          carry = (ret->a[i] >= carry) ? 0 : 1;
       }
 
-      if(carry==1){
+      if (carry == 1)
+      {
 
          // 这个if判断last是否大于max
-         if(ret->last>ret->max){
-            ret->max+=1;
+         if (ret->last > ret->max)
+         {
+            ret->max += 1;
             free(ret->a);
-            ret->a=(unsigned long*)malloc(sizeof(unsigned long)*(ret->max+1));
+            ret->a = (unsigned long *)malloc(sizeof(unsigned long) * (ret->max + 1));
          }
 
          ret->last++;
-         ret->a[r->last-1]=carry;
+         ret->a[r->last - 1] = carry;
       }
 
       //将ret赋值给r
-      r->last=ret->last;
-      r->max=ret->max;
+      r->last = ret->last;
+      r->max = ret->max;
       free(r->a);
-      r->a=ret->a;
-      
+      r->a = ret->a;
    }
 }
 
@@ -402,20 +410,23 @@ int BN_add(bignum *r, bignum *a, bignum *b)
 
 令bignum *a左移w个精度
 */
-int BN_lshift64(bignum *a,int w){
-   bignum *r=bn_new(a->max+w);
-   for(int i=0;i<w;i++){
-      r->a[i]=0;
+int BN_lshift64(bignum *a, int w)
+{
+   bignum *r = bn_new(a->max + w);
+   for (int i = 0; i < w; i++)
+   {
+      r->a[i] = 0;
    }
 
-   for(int i=w;i<(a->last+w);i++){
-      r->a[i]=a->a[i-w];
+   for (int i = w; i < (a->last + w); i++)
+   {
+      r->a[i] = a->a[i - w];
    }
 
-   a->max=a->max+w;
-   a->last=(a->last+w);
+   a->max = a->max + w;
+   a->last = (a->last + w);
    free(a->a);
-   a->a=r->a;
+   a->a = r->a;
 }
 
 /*
@@ -424,10 +435,11 @@ int BN_lshift64(bignum *a,int w){
 
 创造一个值为0的bignum类型实例，返回指向该实例的指针
 */
-bignum *BN_Zero(int digits){
+bignum *BN_Zero(int digits)
+{
    bignum *r;
-   r=bn_new(digits);
-   r->last=0;
+   r = bn_new(digits);
+   r->last = 0;
    return r;
 }
 
@@ -437,21 +449,24 @@ bignum *BN_Zero(int digits){
 
 计算bignum *a * bignum *b
 */
-bignum *BN_mul(bignum *a, bignum *b){
+bignum *BN_mul(bignum *a, bignum *b)
+{
    //拆分b
-   bignum **t=malloc(sizeof(bignum*)*(b->last));
+   bignum **t = malloc(sizeof(bignum *) * (b->last));
 
-   bignum *ret=BN_Zero(a->last+b->last+3);
+   bignum *ret = BN_Zero(a->last + b->last + 3);
 
-   for(int i=0;i<b->last;i++){
-      t[i]=BN_dup(a);
-      BN_mul_word(t[i],b->a[i]);
+   for (int i = 0; i < b->last; i++)
+   {
+      t[i] = BN_dup(a);
+      BN_mul_word(t[i], b->a[i]);
 
-      BN_lshift64(t[i],i);
-      BN_add(ret,ret,t[i]);
+      BN_lshift64(t[i], i);
+      BN_add(ret, ret, t[i]);
 
       /*调试*/
-      if(i==1){
+      if (i == 1)
+      {
          bn2dec(ret);
       }
    }
@@ -460,8 +475,6 @@ bignum *BN_mul(bignum *a, bignum *b){
    free(t);
    return ret;
 }
-
-
 
 // int main(){
 //    // /*测试mul函数*/
@@ -472,13 +485,12 @@ bignum *BN_mul(bignum *a, bignum *b){
 //    // mul(r,a,w,c);
 
 //    // /*溢出，结果为79，unsigned long 长度为64个bit*/
-//    // temp=18446744073709551615+80; 
+//    // temp=18446744073709551615+80;
 
 //    char *c="123979";
 //    char *c1;
 //    char *c2;
 //    char *c3;
-   
 
 //    bignum *a;
 //    bignum *b;
