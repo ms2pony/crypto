@@ -1,63 +1,8 @@
-Reading symbols from app...
-Breakpoint 1 at 0x2092: file basic.c, line 450.
-Starting program: /home/tam/Desktop/bignum/app 
-
-Breakpoint 1, main () at basic.c:450
-450	   r=BN_mul(a,b);
-BN_mul (a=0x1000001ef, b=0x7fffffffde90) at basic.c:399
-399	bignum *BN_mul(bignum *a, bignum *b){
-401	   bignum **t=malloc(sizeof(bignum*)*(b->last));
-403	   bignum *ret=BN_Zero(a->last+b->last+3);
-405	   for(int i=0;i<b->last;i++){
-406	      t[i]=BN_dup(a);
-407	      BN_mul_word(t[i],b->a[i]);
-409	      BN_lshift64(t[i],i);
-$1 = 0x55555555a670 "32256867042516975857604552528249241930509184199477558762"
-$2 = 992141784112206703
-$3 = 0
-$4 = 0x55555555a750 "32689348815398456863434535223322395898549879739247"
-Starting program: /home/tam/Desktop/bignum/app 
-
-Breakpoint 1, main () at basic.c:450
-450	   r=BN_mul(a,b);
-BN_mul (a=0x1000001ef, b=0x7fffffffde90) at basic.c:399
-399	bignum *BN_mul(bignum *a, bignum *b){
-401	   bignum **t=malloc(sizeof(bignum*)*(b->last));
-403	   bignum *ret=BN_Zero(a->last+b->last+3);
-405	   for(int i=0;i<b->last;i++){
-406	      t[i]=BN_dup(a);
-407	      BN_mul_word(t[i],b->a[i]);
-$5 = 0x55555555a660 "32512356156213325621365123652135625654"
-409	      BN_lshift64(t[i],i);
-Starting program: /home/tam/Desktop/bignum/app 
-
-Breakpoint 1, main () at basic.c:450
-450	   r=BN_mul(a,b);
-BN_mul (a=0x1000001ef, b=0x7fffffffde90) at basic.c:399
-399	bignum *BN_mul(bignum *a, bignum *b){
-401	   bignum **t=malloc(sizeof(bignum*)*(b->last));
-403	   bignum *ret=BN_Zero(a->last+b->last+3);
-405	   for(int i=0;i<b->last;i++){
-406	      t[i]=BN_dup(a);
-407	      BN_mul_word(t[i],b->a[i]);
-$6 = 0x55555555a660 "32512356156213325621365123652135625654"
-$7 = 992141784112206703
-409	      BN_lshift64(t[i],i);
-$8 = 0x55555555a740 "32256867042516975857604552528249241930509184199477558762"
-410	      BN_add(ret,ret,t[i]);
-$9 = 0x55555555a5f0 "32256867042516975857604552528249241930509184199477558762"
-405	   for(int i=0;i<b->last;i++){
-$10 = 0x55555555a940 "32256867042516975857604552528249241930509184199477558762"
-$11 = 3
-$12 = 96065362161
-406	      t[i]=BN_dup(a);
-407	      BN_mul_word(t[i],b->a[i]);
-$13 = 0x55555555aa90 "32512356156213325621365123652135625654"
-$14 = 7384333857849995833
-$15 = 7384333857849995833
-409	      BN_lshift64(t[i],i);
-$16 = 0x55555555ab70 "240082092362803808554205268980689081748554990834747899782"
-410	      BN_add(ret,ret,t[i]);
-$17 = 0x55555555acd0 "4428732914497340357717801445445488042401931864243698442164467053328924147712"
-405	   for(int i=0;i<b->last;i++){
-$18 = 0x55555555adf0 "0032256867042516975857604552528249241930509184199477558762"
+Reading symbols from /usr/bin/env...
+(No debugging symbols found in /usr/bin/env)
+"/bin/sh" is not a core dump: file format not recognized
+Reading symbols from openssl...
+(No debugging symbols found in openssl)
+Function "main" not defined.
+Breakpoint 1 (main) pending.
+Function "main" not defined.
