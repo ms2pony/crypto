@@ -9,3 +9,5 @@ openssl
 a.out
 temp
 perf.data*
+out
+build
