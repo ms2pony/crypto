@@ -1,8 +1,0 @@
-Reading symbols from /usr/bin/env...
-(No debugging symbols found in /usr/bin/env)
-"/bin/sh" is not a core dump: file format not recognized
-Reading symbols from openssl...
-(No debugging symbols found in openssl)
-Function "main" not defined.
-Breakpoint 1 (main) pending.
-Function "main" not defined.
