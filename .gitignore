@@ -11,3 +11,4 @@ temp
 perf.data*
 out
 build
+!makefile
