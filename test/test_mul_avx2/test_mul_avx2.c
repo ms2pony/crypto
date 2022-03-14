@@ -22,8 +22,8 @@ void test_mul_avx2()
 
     mul_avx2(E_F, A_B, C_D);
 
-    printf("E=[%lld,%lld,%lld,%lld,%lld,%lld,%lld,%lld,%lld,%lld]\n", E_F[0][0], E_F[0][1], E_F[1][0], E_F[1][1], E_F[2][0], E_F[2][1], E_F[3][0], E_F[3][1], E_F[4][0], E_F[4][1]);
-    printf("F=[%lld,%lld,%lld,%lld,%lld,%lld,%lld,%lld,%lld,%lld]\n", E_F[0][2], E_F[0][3], E_F[1][2], E_F[1][3], E_F[2][2], E_F[2][3], E_F[3][2], E_F[3][3], E_F[4][2], E_F[4][3]);
+    // printf("E=[%lld,%lld,%lld,%lld,%lld,%lld,%lld,%lld,%lld,%lld]\n", E_F[0][0], E_F[0][1], E_F[1][0], E_F[1][1], E_F[2][0], E_F[2][1], E_F[3][0], E_F[3][1], E_F[4][0], E_F[4][1]);
+    // printf("F=[%lld,%lld,%lld,%lld,%lld,%lld,%lld,%lld,%lld,%lld]\n", E_F[0][2], E_F[0][3], E_F[1][2], E_F[1][3], E_F[2][2], E_F[2][3], E_F[3][2], E_F[3][3], E_F[4][2], E_F[4][3]);
 }
 
 int main()

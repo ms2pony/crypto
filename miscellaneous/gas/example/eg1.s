@@ -1,3 +1,5 @@
+# gnu assembly 64bit program
+# print "hello world" and perform a addition
 	.text
 	.section	.rodata
 .LD0:
