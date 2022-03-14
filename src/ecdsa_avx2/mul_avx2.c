@@ -10,7 +10,8 @@
  * @require AVX2基础 见note.md
  */
 
-#include <immintrin.h>
+#include <x86intrin.h>
+#include <stdio.h>
 
 __m256i A_B[5];
 __m256i C_D[5];
@@ -75,18 +76,28 @@ int computer_256(__m256i Z[10], __m256i A_B[5], __m256i C_D[5])
  * @param E_F 其中：E=A*C mod p，F=B*D mod p
  * @param A_B
  * @param C_D
+ * @output E_F
  * @return int，无意义，一直都为1
  * @require 相关数据结构与算法见note.md
  */
 int mul_avx2(__m256i E_F[5], __m256i A_B[5], __m256i C_D[5])
 {
 
+	// printf("E=[%lld,%lld,%lld,%lld,%lld,%lld,%lld,%lld,%lld,%lld]\n", E_F[0][0], E_F[0][1], E_F[1][0], E_F[1][1], E_F[2][0], E_F[2][1], E_F[3][0], E_F[3][1], E_F[4][0], E_F[4][1]);
+	// printf("F=[%lld,%lld,%lld,%lld,%lld,%lld,%lld,%lld,%lld,%lld]\n", E_F[0][2], E_F[0][3], E_F[1][2], E_F[1][3], E_F[2][2], E_F[2][3], E_F[3][2], E_F[3][3], E_F[4][2], E_F[4][3]);
+
 	// C′D′
 	__m256i C_D1[5];
+
 	__m256i Z[10];
 	__m256i U[5], V[5];
 	__m256i temp, temp1, temp2;
 	__m256i zero = _mm256_set_epi64x(0, 0, 0, 0);
+
+	for (int i = 0; i < 10; i++)
+	{
+		Z[i] = _mm256_set_epi64x(0, 0, 0, 0);
+	}
 
 	for (int i = 0; i < 5; i++)
 	{
@@ -100,6 +111,8 @@ int mul_avx2(__m256i E_F[5], __m256i A_B[5], __m256i C_D[5])
 			C_D1[i] = _mm256_alignr_epi8(C_D[0], C_D[4], 8);
 		}
 	}
+
+	// printf("C_D1=[%lld,%lld,%lld,%lld,%lld,%lld,%lld,%lld,%lld,%lld]\n", C_D1[0][0], C_D1[0][1], C_D1[1][0], C_D1[1][1], C_D1[2][0], C_D1[2][1], C_D1[3][0], C_D1[3][1], C_D1[4][0], C_D1[4][1]);
 
 	for (int i = 0; i < 5; i++)
 	{
@@ -124,6 +137,8 @@ int mul_avx2(__m256i E_F[5], __m256i A_B[5], __m256i C_D[5])
 		Z[i] = _mm256_add_epi64(Z[i], temp1);
 		Z[i + 5] = _mm256_add_epi64(Z[i + 5], temp2);
 	}
+
+	// printf("Z=[%lld,%lld,%lld,%lld,%lld,%lld,%lld,%lld,%lld,%lld]\n", Z[0][0], Z[0][1], Z[1][0], Z[1][1], Z[2][0], Z[2][1], Z[3][0], Z[3][1], Z[4][0], Z[4][1]);
 
 	// Algorithm6(line 1- line 13)
 	__m256i L[10], M[10], H[10], M_1[10];					  // M_1 为 M pie
@@ -165,7 +180,7 @@ int mul_avx2(__m256i E_F[5], __m256i A_B[5], __m256i C_D[5])
 	E_F[0] = _mm256_add_epi64(E_F[0], _mm256_slli_epi64(Z[6], 24)); // 2
 	E_F[0] = _mm256_add_epi64(E_F[0], _mm256_slli_epi64(_mm256_blend_epi32(_mm256_shuffle_epi32(Z[6], 0xb1), _mm256_shuffle_epi32(Z[7], 0xb1), 0xcc), 18));
 	E_F[0] = _mm256_add_epi64(E_F[0], _mm256_slli_epi64(Z[7], 12));
-	E_F[0] = _mm256_add_epi64(E_F[0], _mm256_slli_epi64(_mm256_blend_epi32(_mm256_shuffle_epi32(Z[7], 0xb1), _mm256_shuffle_epi32(Z_1[8], 0xb1), 0xcc), 6));
+	E_F[0] = _mm256_add_epi64(E_F[0], _mm256_slli_epi64(_mm256_blend_epi32(_mm256_shuffle_epi32(Z[7], 0xb1), _mm256_shuffle_epi32(Z[8], 0xb1), 0xcc), 6));
 	E_F[0] = _mm256_add_epi64(E_F[0], _mm256_slli_epi64(Z[9], 21));
 	E_F[0] = _mm256_add_epi64(E_F[0], _mm256_sllv_epi64(_mm256_blend_epi32(_mm256_permute4x64_epi64(Z[9], 0xb1), Z[8], 0xcc), temp6));
 	Z_1[8] = _mm256_sub_epi64(zero, Z[8]);
@@ -194,6 +209,9 @@ int mul_avx2(__m256i E_F[5], __m256i A_B[5], __m256i C_D[5])
 	E_F[4] = _mm256_add_epi64(Z[4], _mm256_slli_epi64(Z[5], 20));
 	E_F[4] = _mm256_add_epi64(E_F[4], _mm256_sllv_epi64(_mm256_blend_epi32(_mm256_shuffle_epi32(Z[7], 0xb1), _mm256_shuffle_epi32(Z[7], 0xb1), 0xcc), fuzhu3));
 	E_F[4] = _mm256_add_epi64(E_F[4], _mm256_slli_epi64(Z[9], 4));
+
+	// printf("E=[%lld,%lld,%lld,%lld,%lld,%lld,%lld,%lld,%lld,%lld]\n", E_F[0][0], E_F[0][1], E_F[1][0], E_F[1][1], E_F[2][0], E_F[2][1], E_F[3][0], E_F[3][1], E_F[4][0], E_F[4][1]);
+	// printf("F=[%lld,%lld,%lld,%lld,%lld,%lld,%lld,%lld,%lld,%lld]\n", E_F[0][2], E_F[0][3], E_F[1][2], E_F[1][3], E_F[2][2], E_F[2][3], E_F[3][2], E_F[3][3], E_F[4][2], E_F[4][3]);
 
 	__m256i T;
 	__m256i fuzhu4 = {8, 14, 8, 14};
