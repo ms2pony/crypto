@@ -1,0 +1,72 @@
+% \documentclass{jcr}
+\documentclass{ctexart} %使用这个算法排版会有些小问题
+\usepackage[ruled]{algorithm2e}
+
+\begin{document}
+\begin{algorithm}[H]
+    \zihao{7}
+    \caption{\kaishu \zihao{-5} 适用于P256素数的模加算法} %算法名字
+    \label{alg1}
+    \LinesNumbered %要求显示行号
+    % \KwIn{256-bit 大数 $a,b$，模$p$，\\ %\\为换行
+    %     \hspace{3.6em}三个长度为4的数组}  %输入参数
+    \KwIn{256-bit 大数 $a,b$，模$p$，三个长度为4的数组}  %输入参数
+    \KwOut{$res=a+b \bmod p$} %输出
+    \emph {$carry=0$}\;
+    \For{$\mathrm{i \; from \; 0 \; by \; 1 \; to \; 4}$}{
+    $sum_{1}=a[i]+b[i]$并且更新 $carry1$ \hspace{2em} \tcp{本次加法进位则$carry1$置1，否则置0}
+    $sum_{2}=sum_{1}+carry$并且更新 $carry2$ \hspace{2em} \tcp{$carry2$的意义与$carry1$一样}
+    $sum[i]=sum_{2}$ \;
+    $carry=carry1 \;|\;  carry2$ \;%最后一个carry加到结果sum中
+    }
+    \emph {$borrow=0$}\;
+    \emph {$try[0]=sum[0]-p[0]-borrow$ 并且更新 $borrow1$ \hspace{2em} \tcp{本次减法借位则$borrow1$置1，否则置0}}
+    \emph {$borrow=borrow1$}\;
+    \emph {$try[1]=sum[1]-p[1]-borrow$ 并且更新 $borrow1$ }\;
+    \emph {$borrow=borrow1$}\;
+    \emph {$try[2]=sum[2]-borrow$ 并且更新 $borrow1$ }\;
+    \emph {$borrow=borrow1$}\;
+    \emph {$try[3]=sum[3]-p[3]-borrow$ 并且更新 $borrow1$ }\;
+    \emph {$borrow=borrow1$}\;
+
+    \emph {$select\_mask1=0-borrow$ \hspace{2em} \tcp{select\_mask1为$64$-bit数} }
+    \emph {$select\_mask2=0-borrow$ \hspace{2em} }
+
+    \For{$\mathrm{i \; from \; 0 \; by \; 1 \; to \; 4}$}{
+        $res[i]=(!select\_mask1 \;\&\; try[i]) \;|\;  ((select\_mask1 \;\&\; !select\_mask2) \;\&\; sum[i]) \;|$ \\ \hspace{4.8em}
+        $((select\_mask1 \;\&\; select\_mask2) \;\&\; try[i])\;$
+    }
+    \emph {返回 $res$。}
+\end{algorithm}
+
+\begin{algorithm}[H]
+    \zihao{7}
+    \caption{\kaishu \zihao{-5} 适用于P256素数的模减算法} %算法名字
+    \label{alg2}
+    \LinesNumbered  %要求显示行号
+    \KwIn{256-bit 大数 $a,b$，模$p$，\\
+        \hspace{3.6em}三个长度为4的数组}  %输入参数
+    \KwOut{$res=a-b \bmod p$} %输出
+    \KwData{$correction=2^{256}-p$} %输入数据
+    \emph {$borrow=0$ \;}
+    \For{$\mathrm{i  from  0  by  1  to  4}$}{
+    $diff_{1}=a[i]-b[i]$并且更新 $borrow1$ \hspace{2em} \tcp{本次减法借位则$borrow1$置1，否则置0位}
+    $diff_{2}=diff_{1}-borrow$并且更新 $borrow2$ \hspace{2em} \tcp{$borrow2$的意义与$borrow1$一样}
+    $diff[i]=sum_{2}$\;
+    $borrow=borrow1  \;|\;  borrow2$ \; %最后一个borrow作为下面的select_mask
+    }
+
+    \emph {$select\_mask=0-borrow$ \hspace{2em} \tcp{select\_mask为$64$-bit数} }
+    \emph {$borrow=0$ }\;
+    \emph {$res[0]=diff[0]-(select\_mask \& correction[i])-borrow$ 并且更新 $borrow1$ }\;
+
+    \emph {$borrow=borrow1$}\;
+    \emph {$res[1]=diff[1]-borrow$ 并且更新 $borrow1$ }\;
+    \emph {$borrow=borrow1$}\;
+    \emph {$res[2]=diff[2]-(select\_mask \& correction[i])-borrow$ 并且更新 $borrow1$ }\;
+    \emph {$borrow=borrow1$}\;
+    \emph {$res[3]=diff[3]-(select\_mask \& correction[i])-borrow$ 并且更新 $borrow1$ }\;
+    % \emph {$borrow=borrow1$}  %该borrow应该对结果res无关紧要
+    \emph {返回 $res$。}
+\end{algorithm}
+\end{document}

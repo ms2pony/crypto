@@ -40,13 +40,20 @@ cStrLine2 = "C_D[{}] = _mm256_set_epi64x({}, {}, {}, {});\n"  # 5个{}：i和4�
 cCodeAB = ""
 cCodeCD = ""
 for i in range(0, 5):
-    cCodeAB += cStrLine1.format(i, A[2*i], A[2*i+1], B[2*i], B[2*i+1])
-    cCodeCD += cStrLine2.format(i, C[2*i], C[2*i+1], D[2*i], D[2*i+1])
+    # cCodeAB += cStrLine1.format(i, A[2*i], A[2*i+1], B[2*i], B[2*i+1])
+    cCodeAB += cStrLine1.format(i, B[2*i+1], B[2*i], A[2*i+1], A[2*i]) # [A[2i],A[2i+1],B[2i],B[2i+1]]
+    
+    # cCodeAB += cStrLine1.format(i, B[2*i], B[2*i+1], A[2*i], A[2*i+1]) # [A[2i+1],A[2i],B[2i+1],B[2i]]
+
+    # cCodeCD += cStrLine2.format(i, C[2*i], C[2*i+1], D[2*i], D[2*i+1])
+    cCodeCD += cStrLine2.format(i, D[2*i+1], D[2*i], C[2*i+1], C[2*i])
+    # cCodeCD += cStrLine2.format(i, D[2*i], D[2*i+1], C[2*i], C[2*i+1])
+
 cCode = cCodeAB+cCodeCD
 print(cCode)  # 打印到控制台后，将输出内容粘贴到`test_mul_avx2.c`中
 
-# p=0xffffffff00000001000000000000000000000000ffffffffffffffffffffffff (取自椭圆曲线P-256，参考：https://neuromancer.sk/std/nist/P-256#)
-p = 0xffffffff00000001000000000000000000000000ffffffffffffffffffffffff
+# sm2椭圆曲线
+p = 0xfffffffeffffffffffffffffffffffffffffffff00000000ffffffffffffffff
 
 ETrue = (ABigNum*CBigNum) % p
 FTrue = (BBigNum*DBigNum) % p
