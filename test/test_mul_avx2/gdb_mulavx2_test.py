@@ -44,19 +44,22 @@ class Pbig(gdb.Command):
         Z1 = []
         Z2 = []
         while(i < Z_len):
-            Z1.append(int(Z[i][0].format_string())) # Z[i][2i]
-            Z1.append(int(Z[i][1].format_string())) # Z[i][2i+1]
-            
+            Z1.append(int(Z[i][0].format_string()))  # Z[i][2i]
+            Z1.append(int(Z[i][1].format_string()))  # Z[i][2i+1]
+
             Z2.append(int(Z[i][2].format_string()))
-            Z2.append(int(Z[i][3].format_string())) # 同上
-            
+            Z2.append(int(Z[i][3].format_string()))  # 同上
+
             i += 1
         Z1_p = array2BigNum(Z1)
         Z2_p = array2BigNum(Z2)
         # print(Z1)
         # print(Z2)
+        # print("{}其1：".format(paras[0]), hex(Z1_p % p_sm2))
+        # print("{}其2：".format(paras[0]), hex(Z2_p % p_sm2))
         print("{}其1：".format(paras[0]), hex(Z1_p))
         print("{}其2：".format(paras[0]), hex(Z2_p))
         return
+
 
 Pbig()
