@@ -27,7 +27,7 @@ void learn_m256i()
   __m256i c = _mm256_sub_epi64(b, a); //向量减法b-a
 
   //类型转换
-  // __attribute__ ((aligned (32)))的意思仅仅是32字节对齐
+  // `typedef __attribute((vector_size(32))) long long __m256i` 中的32指该向量类型__m256i大小为32字节
   long long *output = (long long *)(&c);
   printf("output is:\t%lld %lld %lld %lld\n", output[0], output[1], output[2], output[3]);
 }

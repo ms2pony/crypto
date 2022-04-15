@@ -5,8 +5,7 @@
 AVX2 于 2013 年发布，AVX2 是 AVX 的扩展，AVX 只支持 128-bit 大整数指令，AVX2 支持 256-bit 大整数指令。
 主要指令如下：
 
-1. VPMULUDQ
-2. `_mm256_alignr_epi8`：
+1. `_mm256_alignr_epi8`：
 
    ```c
    FOR j := 0 to 1
@@ -22,9 +21,9 @@ AVX2 于 2013 年发布，AVX2 是 AVX 的扩展，AVX 只支持 128-bit 大整�
    A=[a1,a2,a3,a4], B=[b1,b2,b3,b4]
    \_mm256_alignr_epi8(A,B,8)=[b2,a1,b4,a3]
 
-3. `_mm256_srli_epi64`：
+2. `_mm256_srli_epi64`：
    右移
-4. `_mm256_shuffle_epi32(__m256i a, const int imm8)`：
+3. `_mm256_shuffle_epi32(__m256i a, const int imm8)`：
 
    shuffle, 位置调整，对应的功能代码如下
 
@@ -53,24 +52,24 @@ AVX2 于 2013 年发布，AVX2 是 AVX 的扩展，AVX 只支持 128-bit 大整�
    上面代码大概意思是，分两次 shuffle，每次 128bit 分为 4 个元素，使用 imm8 进行分组，
    imm8 分为 4 个 4 进制数对 4 个元素进行选择
 
-5. `_mm256_blend_epi32(__m256i a, __m256i b, const int imm8)`：
+4. `_mm256_blend_epi32(__m256i a, __m256i b, const int imm8)`：
 
-blend, 从两个\_\_m256i 数组中选择元素填充到新的\_\_m256i 中
+   blend, 从两个\_\_m256i 数组中选择元素填充到新的\_\_m256i 中
 
-```c
-FOR j := 0 to 7
-  i := j*32
-  IF imm8[j]
-    dst[i+31:i] := b[i+31:i]
-  ELSE
-    dst[i+31:i] := a[i+31:i]
-FI
-ENDFOR
-dst[MAX:256] := 0
-```
+   ```c
+   FOR j := 0 to 7
+     i := j*32
+     IF imm8[j]
+       dst[i+31:i] := b[i+31:i]
+     ELSE
+       dst[i+31:i] := a[i+31:i]
+   FI
+   ENDFOR
+   dst[MAX:256] := 0
+   ```
 
-上面代码的大概意思是，将新的\_\_m256i 分成 8 个 32bit 数，
-根据 imm8 的 8 个 bit 来选择是从 a 中取还是从 b 中取
+   上面代码的大概意思是，将新的\_\_m256i 分成 8 个 32bit 数，
+   根据 imm8 的 8 个 bit 来选择是从 a 中取还是从 b 中取
 
 ## 数据结构
 
@@ -88,7 +87,7 @@ dst[MAX:256] := 0
 
 参考：`F:\iii\ii\i\paper\算法优化论文\密码算法优化\PIOS2020.pdf`
 
-### Algorithm7P
+### Algorithm7
 
 - 目的
 
@@ -96,8 +95,9 @@ dst[MAX:256] := 0
 
 - 基本思想
 
-  1. 消去权重为 $2^{260}$ 的部分的值 $q$
-     对之前得到的 E_F 的 E_F[4]进行处理就能得到权重为 $2^{260}$ 的部分的值 $q$，再使用公式 $q \cdot 2^{260} \equiv q \cdot\left(2^{228}+2^{100}-2^{68}+2^{4}\right) \bmod p$
+  1. 消去权重为 $2^{260}$ 的部分的值 $q$，
+     而对 Algorithm8 输出的 E_F 中的 E_F[4]进行处理就能得到 $q$，然后使用公式 $q \cdot 2^{260} \equiv q \cdot\left(2^{228}+2^{100}-2^{68}+2^{4}\right) \bmod p$ 就能消去 $q$
+
   2. 减少 10 个 limbs 的 bit 长度，使用公式：
 
      $a_{0}^{\prime}=l_{0}, a_{1}^{\prime}=l_{1}+m_{0}$

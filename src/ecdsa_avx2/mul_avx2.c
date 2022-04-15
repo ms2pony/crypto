@@ -12,6 +12,8 @@
 
 #include <x86intrin.h>
 #include <stdio.h>
+#include <mm256op.h>
+#include <show_mm256.h>
 
 /**
  * @brief PIOS2020中Algorithm5,6,7,8的实现
@@ -82,9 +84,9 @@ int mul_avx2(__m256i E_F[5], __m256i A_B[5], __m256i C_D[5])
 		// V[i]*C_D1[4]=[ C[9]*A[2i+1], C[0]*A[2i+1], D[9]*B[2i+1], D[0]*B[2i+1] ]
 		temp = _mm256_mul_epu32(V[i], C_D1[4]);
 
-		// 0xcc=>11 00 11 00b=>(从左到右是对应从低位到高位)=> temp1= [ 0, C[0]*A[2i+1], 0, D[0]*B[2i+1] ]
+		// 0x33=>11 00 11 00b=>(从左到右是对应从低位到高位)=> temp1= [ 0, C[0]*A[2i+1], 0, D[0]*B[2i+1] ]
 		temp1 = _mm256_blend_epi32(temp, zero, 0x33);
-		// 0x33=>00 11 00 11b=> temp2= [ C[9]*A[2i+1], 0, D[9]*B[2i+1], 0 ]
+		// 0xcc=>00 11 00 11b=> temp2= [ C[9]*A[2i+1], 0, D[9]*B[2i+1], 0 ]
 		temp2 = _mm256_blend_epi32(temp, zero, 0xcc);
 
 		Z[i] = _mm256_add_epi64(Z[i], temp1);
@@ -117,7 +119,6 @@ int mul_avx2(__m256i E_F[5], __m256i A_B[5], __m256i C_D[5])
 	{
 		// M_1[i]=[ M[2i-1], M[2i],... ]
 		M_1[i] = _mm256_alignr_epi8(M[i], M[i - 1], 8);
-		// H_1[i] = _mm256_alignr_epi8(H[i], H[i - 1], 8);
 
 		// L[i]=[ L[2i], L[2i+1],... ]
 		Z[i] = _mm256_add_epi64(_mm256_add_epi64(L[i], M_1[i]), H[i - 1]);
@@ -183,16 +184,13 @@ int mul_avx2(__m256i E_F[5], __m256i A_B[5], __m256i C_D[5])
 
 	E_F[4] = _mm256_add_epi64(E_F[4], _mm256_slli_epi64(Z[9], 4));
 
-	// printf("E=[%lld,%lld,%lld,%lld,%lld,%lld,%lld,%lld,%lld,%lld]\n", E_F[0][0], E_F[0][1], E_F[1][0], E_F[1][1], E_F[2][0], E_F[2][1], E_F[3][0], E_F[3][1], E_F[4][0], E_F[4][1]);
-	// printf("F=[%lld,%lld,%lld,%lld,%lld,%lld,%lld,%lld,%lld,%lld]\n", E_F[0][2], E_F[0][3], E_F[1][2], E_F[1][3], E_F[2][2], E_F[2][3], E_F[3][2], E_F[3][3], E_F[4][2], E_F[4][3]);
-
 	__m256i T;
 	__m256i fuzhu4 = {14, 8, 14, 8};
 	__m256i fuzhu5 = {23, 17, 23, 17};
 	__m256i fuzhu6 = {11, 5, 11, 5};
 	__m256i fuzhu7 = {0, 4, 0, 4};
 	__m256i fuzhu8 = {20, 16, 20, 16};
-	__m256i fuzhu9 = {0, 20, 0, 20};
+	__m256i fuzhu9 = {20, 0, 20, 0};
 
 	T = _mm256_add_epi64(_mm256_sllv_epi64(Z[6], fuzhu4), _mm256_sllv_epi64(Z[8], fuzhu5));
 	T = _mm256_add_epi64(T, _mm256_sllv_epi64(Z[9], fuzhu6));
@@ -200,28 +198,38 @@ int mul_avx2(__m256i E_F[5], __m256i A_B[5], __m256i C_D[5])
 	// 0xcc=> 00110011 (从低位到高位)
 	E_F[4] = _mm256_add_epi64(E_F[4], _mm256_add_epi64(_mm256_and_si256(_mm256_shuffle_epi32(T, 0x4e), temp8), _mm256_blend_epi32(zero, T, 0xcc)));
 
-	// todo
 	//  Algorithm7
-	__m256i fuzhu71 = {26, 52, 26, 52};
-	__m256i fuzhu81 = {67108863, 4503599627370495, 67108863, 4503599627370495};
-	__m256i fuzhu91 = {0, 4, 0, 4};
-	__m256i fuzhu92 = {22, 16, 22, 16};
+	__m256i fuzhu71 = {52, 26, 52, 26};
+	// __m256i fuzhu81 = {67108863, 4503599627370495, 67108863, 4503599627370495};
+	__m256i fuzhu81 = {4503599627370495, 67108863, 4503599627370495, 67108863};
+	__m256i fuzhu91 = {4, 0, 4, 0};
+	__m256i fuzhu92 = {16, 22, 16, 22};
 
 	__m256i Q, Q_1;
 	H[4] = _mm256_srlv_epi64(E_F[4], fuzhu71);
-	E_F[4] = _mm256_and_si256(E_F[4], fuzhu81);
+
+	E_F[4] = _mm256_and_si256(E_F[4], fuzhu81);	//前26位与前52位
 	Q = _mm256_add_epi64(H[4], _mm256_shuffle_epi32(H[4], 0x4e));
 	// shuf(a,a,im8) =>_mm256_shuffle_epi32(a,im8)
 	Q_1 = _mm256_sub_epi64(zero, Q);
-	E_F[0] = _mm256_add_epi64(E_F[0], _mm256_srlv_epi64(_mm256_blend_epi32(Q, zero, 0xcc), fuzhu91));
-	E_F[1] = _mm256_add_epi64(E_F[1], _mm256_srlv_epi64(_mm256_blend_epi32(Q, Q_1, 0x33), fuzhu92));
-	E_F[4] = _mm256_add_epi64(E_F[4], _mm256_srlv_epi64(_mm256_blend_epi32(Q, zero, 0xcc), fuzhu9));
+	//0xcc正，等价 +2^{4} 运算
+	E_F[0] = _mm256_add_epi64(E_F[0], _mm256_sllv_epi64(_mm256_blend_epi32(Q, zero, 0xcc), fuzhu91));
+
+	// //debug
+	// __m256i debug_v,debug_v1;
+	// debug_v=_mm256_blend_epi32(Q, Q_1, 0x33);
+	// debug_v1=_mm256_sllv_epi64(_mm256_blend_epi32(Q, Q_1, 0x33), fuzhu92);
+
+	//0x33反，等价 +2^{100}-2^{68} 运算
+	E_F[1] = _mm256_add_epi64(E_F[1], _mm256_sllv_epi64(_mm256_blend_epi32(Q, Q_1, 0x33), fuzhu92));
+	//等价 +2^{228} 运算
+	E_F[4] = _mm256_add_epi64(E_F[4], _mm256_sllv_epi64(_mm256_blend_epi32(Q, zero, 0xcc), fuzhu9));
 
 	for (int i = 0; i < 5; i++)
 	{
-		L[i] = _mm256_and_si256(E_F[i], temp3);
+		L[i] = _mm256_and_si256(E_F[i], temp3); //temp=4个2^26-1
 		M[i] = _mm256_srlv_epi64(E_F[i], temp5);
-		M[i] = _mm256_and_si256(M[i], temp3);
+		M[i] = _mm256_and_si256(M[i], temp3);	//右移26再与2^26-1
 		H[i] = _mm256_srlv_epi64(E_F[i], temp4);
 	}
 
@@ -235,16 +243,11 @@ int mul_avx2(__m256i E_F[5], __m256i A_B[5], __m256i C_D[5])
 		}
 		else
 		{
-			M_1[i] = _mm256_alignr_epi8(M[0], M[4], 8);
-			E_F[i] = _mm256_add_epi64(_mm256_add_epi64(L[0], M_1[0]), H[4]);
+			//M_1[0]=[ M[2*4+1], M[2*0], ... ]=[ M[9], M[0], ... ]
+			M_1[0] = _mm256_alignr_epi8(M[0], M[4], 8);
+			E_F[0] = _mm256_add_epi64(_mm256_add_epi64(L[0], M_1[0]), H[4]);
 		}
 	}
 
-	//将E_F[4]赋值给全局变量Z
-	for (int i = 0; i < 5; i++)
-	{
-		Z[i] = E_F[i];
-	}
-
-	return 1;
+	return 0;
 }

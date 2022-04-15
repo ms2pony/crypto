@@ -14,7 +14,7 @@ $18 = 0x55555555adf0 "0032256867042516975857604552528249241930509184199477558762
 
 # 下载 openssl 仓库
 
-git clone https://github.com/openssl/openssl.git
+git clone <https://github.com/openssl/openssl.git>
 
 ## 有问题的分支，`./config`执行时会出错，OpenSSL_1_1_0g 等分支会有问题
 
