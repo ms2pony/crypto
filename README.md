@@ -13,4 +13,4 @@ implemention of crypto algorithm by mspony
 
 - openssl
 
-  仓库地址：https://github.com/openssl/openssl.git
+  仓库地址：<https://github.com/openssl/openssl.git>
