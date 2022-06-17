@@ -4,7 +4,6 @@
 // #define BN_BITS2 64
 #include <openssl/bn.h>
 #include <stdint.h>
-#include <u1.h>
 
 /* Montgomery mul: res = a*b*2^-256 mod P */
 void ecp_nistz256_mul_mont(BN_ULONG res[P256_LIMBS],
@@ -16,7 +15,7 @@ int array2BnTest()
 	BIGNUM *bn_a;
 	bn_a = BN_new();
 	BN_ULONG a[4] = {319875643198, 323298, 3232879827, 2123223239823};
-	array2Bn(bn_a, a, 4);
+	BN_bin2bn((unsigned char *)a, 32, bn_a);
 	char *hex_a = BN_bn2hex(bn_a);
 
 	BIGNUM *bn_b = BN_new();
@@ -53,20 +52,20 @@ int main()
 
 	BN_MONT_CTX_set(mont_ctx, bn_p256, bn_ctx);
 
-	array2Bn(bn_a, a, 4);
-	array2Bn(bn_b, b, 4);
-	array2Bn(bn_res, res, 4);
+	BN_bin2bn((unsigned char *)a, 32, bn_a);
+	BN_bin2bn((unsigned char *)b, 32, bn_b);
 
 	printf("a:\t%s\n", BN_bn2dec(bn_a));
 	printf("b:\t%s\n", BN_bn2dec(bn_b));
 	printf("res0 = %s\n", BN_bn2dec(bn_res));
 
 	ecp_nistz256_mul_mont(res, a, b);
+	BN_bin2bn((unsigned char *)res, 32, bn_res);
 
 	printf("res1 = a*b*2^-256 mod P\n=\t%s\n", BN_bn2dec(bn_res));
 
 	BN_set_bit(bn_R, 256);
-	BN_mod_inverse(bn_R_inv, bn_a, bn_p256, bn_ctx);
+	BN_mod_inverse(bn_R_inv, bn_R, bn_p256, bn_ctx);
 	res[0] = 0;
 	BN_mod_mul_montgomery(bn_res, bn_a, bn_b, mont_ctx, bn_ctx);
 	printf("res2 = a*b*2^-256 mod P\n=\t%s\n", BN_bn2dec(bn_res));

@@ -29,20 +29,20 @@ requirement:vscode, openssl
 
 1. 设置 launch.json
 
-```json
-"program": "${workspaceFolder}/openssl/apps/openssl",	//修改
-"args": [
-				"dgst",
-				"-sha256",
-				"-sign",
-				"test/ECDSA/ecdsa_priv.pem",
-				"-out",
-				"test/ECDSA/signature.txt",
-				"test/ECDSA/plain.txt"
-			],	//修改
-"stopAtEntry": false,
-"cwd": "${workspaceFolder}", //修改
-```
+    ```json
+    "program": "${workspaceFolder}/openssl/apps/openssl", //修改
+    "args": [
+    "dgst",
+    "-sha256",
+    "-sign",
+    "test/ECDSA/ecdsa_priv.pem",
+    "-out",
+    "test/ECDSA/signature.txt",
+    "test/ECDSA/plain.txt"
+    ], //修改
+    "stopAtEntry": false,
+    "cwd": "${workspaceFolder}", //修改
+    ```
 
 2. 编写多次执行 ECDSA 签名脚本, `runECDSA.sh`，并赋予执行权限`chmod +x runECDSA.sh`
 3. 使用`perf`工具追踪
@@ -56,12 +56,12 @@ requirement:vscode, openssl
 
 ```json
 "args": [
-				"dgst",
-				"-sha256",
-				"-verify",
-				"test/ECDSA/ecdsa_pub.pem",
-				"-out",
-				"test/ECDSA/signature.txt",
-				"test/ECDSA/plain.txt"
-			],	//改动
+    "dgst",
+    "-sha256",
+    "-verify",
+    "test/ECDSA/ecdsa_pub.pem",
+    "-out",
+    "test/ECDSA/signature.txt",
+    "test/ECDSA/plain.txt"
+   ], //改动
 ```
