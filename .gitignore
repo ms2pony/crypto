@@ -10,3 +10,4 @@ a.out
 /openssl
 /.vscode
 build
+.*/

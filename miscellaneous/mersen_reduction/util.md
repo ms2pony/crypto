@@ -1,5 +1,3 @@
-## 常用 shell
+## 从该项目(路径)下启动 jupyter
 
-1. 从该项目启动 jupyter
-
-   `jupyter notebook --notebook-dir=/home/tam/crypto/miscellaneous/mersen_reduction`
+   `jupyter notebook --notebook-dir=/home/tam/github/crypto/miscellaneous/mersen_reduction`
