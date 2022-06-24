@@ -102,7 +102,7 @@ def test_mul_avx2_1():
     count = 0
     falseList = []
 
-    with open("/home/tam/crypto/test/test_mul_avx2/log.txt","r") as f:
+    with open("/home/tam/github/crypto/test/test_mul_avx2/log.txt","r") as f:
         str1="1"
         i=0
         while(str1):
@@ -124,6 +124,9 @@ def test_mul_avx2_1():
             A,B=array2BigNum(dicA_B["A"]),array2BigNum(dicA_B["B"])
             C,D=array2BigNum(dicC_D["A"]),array2BigNum(dicC_D["B"])
             ETrue,FTrue=A*C%p,B*D%p
+            
+            # 得到的E,F只是每个limb小于28-bit，而不是E,F所代表的的两个大数都为
+            # 256-bit数，所以要模p即%p
             E,F=array2BigNum(dicE_F["A"])%p,array2BigNum(dicE_F["B"])%p
 
             if E == ETrue and F == FTrue:

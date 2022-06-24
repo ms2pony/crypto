@@ -2,8 +2,17 @@
 #include <stdio.h>
 #include <openssl/bn.h>
 //在util目录中
-#include <mm256op.h>
-#include <show_mm256.h>
+#include <util/bn_avx2/bn_avx2_info.h>
+#include <util/bn_avx2/get_bn_avx2.h>
+#include <util/bn_avx2/show_bn_avx2.h>
+#include <util/bn_convert/bn_convert.h>
+
+#define P256_LIMBS (256 / BN_BITS2)
+
+/* Montgomery mul: res = a*b*2^-256 mod P */
+void ecp_nistz256_mul_mont(BN_ULONG res[P256_LIMBS],
+                           const BN_ULONG a[P256_LIMBS],
+                           const BN_ULONG b[P256_LIMBS]);
 
 int mul_avx2(__m256i E_F[5], __m256i A_B[5], __m256i C_D[5]);
 // void ecp_nistz256_mul_mont(BN_ULONG res[P256_LIMBS],
@@ -40,10 +49,10 @@ void test_mul_avx2()
     mul_avx2(E_F, A_B, C_D);
 
     int size[20];
-    mm256_2bn_limbsize(E_F, size);
-    show_mm256_2bn1(E_F, size);
+    limb_size(E_F, size);
+    show_bn_avx2(E_F, size);
     //分别打印E_F中两个大数的10个limb的值(从低位到高位)
-    show_mm256_2bn_py(E_F);
+    show_bn_avx2_py(E_F);
 }
 
 void test_mul_avx2_1()
@@ -52,26 +61,96 @@ void test_mul_avx2_1()
     __m256i C_D[5];
     __m256i E_F[5] = {0};
 
-    unsigned int seed=(unsigned int)time(NULL);
+    unsigned int seed = (unsigned int)time(NULL);
 
-    for(int i=0;i<15;i++){
-        
-        get_mm256_2bn(A_B,seed++);
-        show_mm256_2bn(A_B);
+    for (int i = 0; i < 15; i++)
+    {
 
-        get_mm256_2bn(C_D,seed++);
-        show_mm256_2bn(C_D);
+        get_bn_avx2(A_B, seed++);
+        show_bn_avx2_2(A_B);
+
+        get_bn_avx2(C_D, seed++);
+        show_bn_avx2_2(C_D);
 
         mul_avx2(E_F, A_B, C_D);
 
-        show_mm256_2bn(E_F);
+        show_bn_avx2_2(E_F);
     }
+}
 
+void test_mul_avx2_2()
+{
+    __m256i A_B[5];
+    __m256i C_D[5];
+    __m256i E_F[5] = {0};
+    BN_ULONG A[5] = {0}, B[5] = {0}, C[5] = {0}, D[5] = {0}, E[5] = {0}, F[5] = {0};
+
+    BIGNUM *bn_A = BN_new();
+    BIGNUM *bn_B = BN_new();
+    BIGNUM *bn_C = BN_new();
+    BIGNUM *bn_D = BN_new();
+
+    BIGNUM *bn_E = BN_new();
+    BIGNUM *bn_F = BN_new();
+
+    unsigned int seed = (unsigned int)time(NULL);
+
+    // for (int i = 0; i < 15; i++)
+    // {
+
+    get_bn_avx2(A_B, seed++);
+    show_bn_avx2_hex(A_B, "A", "B");
+
+    get_bn_avx2(C_D, seed++);
+    show_bn_avx2_hex(C_D, "C", "D");
+
+    mul_avx2(E_F, A_B, C_D);
+    show_bn_avx2_hex(E_F, "E", "F");
+
+    //利用python计算A*C%p，B*D%p，得到E,F，与mul_avx2函数得到的E,F进行比较
+    //如果相等则mul_avx2功能正确，
+    //注意mul_avx2得到的E、F还要分别与p取模，因为E,F长度可能大于256-bit
+
+    // }
+}
+
+void test_mul_avx2_3()
+{
+    __m256i A_B[5];
+    __m256i C_D[5];
+    __m256i E_F[5];
+
+    unsigned int seed = (unsigned int)time(NULL);
+
+    //利用openssl中的BN_mod_mul函数来检验mul_avx2函数是否能得到正确结果
+    BN_CTX *bn_ctx = BN_CTX_new();
+
+    BIGNUM *r = BN_new(), *a = BN_new(), *b = BN_new(), *m = BN_new();
+    BIGNUM *r2 = BN_new(), *c = BN_new(), *d = BN_new();
+
+    BN_hex2bn(&m, "fffffffeffffffffffffffffffffffffffffffff00000000ffffffffffffffff");
+
+    get_bn_avx2(A_B, seed++);
+    show_bn_avx2_hex(A_B, "A", "B");
+
+    get_bn_avx2(C_D, seed++);
+    show_bn_avx2_hex(C_D, "C", "D");
+
+    avx2to_bignum(A_B, a, b);
+    avx2to_bignum(C_D, c, d);
+
+    mul_avx2(E_F, A_B, C_D);
+    show_bn_avx2_hex2(E_F, "E", "F");
+
+    BN_mod_mul(r, a, c, m, bn_ctx);
+    BN_mod_mul(r2, b, d, m, bn_ctx);
+    printf("E2 = \t%s\n", BN_bn2hex(r));
+    printf("F2 = \t%s\n", BN_bn2hex(r2));
 }
 
 int main()
 {
     // test_mul_avx2_1();
-    test_mul_avx2_1();
-
+    test_mul_avx2_3();
+    return 0;
 }

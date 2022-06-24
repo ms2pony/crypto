@@ -12,8 +12,6 @@
 
 #include <x86intrin.h>
 #include <stdio.h>
-#include <mm256op.h>
-#include <show_mm256.h>
 
 /**
  * @brief PIOS2020中Algorithm5,6,7,8的实现
@@ -208,11 +206,11 @@ int mul_avx2(__m256i E_F[5], __m256i A_B[5], __m256i C_D[5])
 	__m256i Q, Q_1;
 	H[4] = _mm256_srlv_epi64(E_F[4], fuzhu71);
 
-	E_F[4] = _mm256_and_si256(E_F[4], fuzhu81);	//前26位与前52位
+	E_F[4] = _mm256_and_si256(E_F[4], fuzhu81); //前26位与前52位
 	Q = _mm256_add_epi64(H[4], _mm256_shuffle_epi32(H[4], 0x4e));
 	// shuf(a,a,im8) =>_mm256_shuffle_epi32(a,im8)
 	Q_1 = _mm256_sub_epi64(zero, Q);
-	//0xcc正，等价 +2^{4} 运算
+	// 0xcc正，等价 +2^{4} 运算
 	E_F[0] = _mm256_add_epi64(E_F[0], _mm256_sllv_epi64(_mm256_blend_epi32(Q, zero, 0xcc), fuzhu91));
 
 	// //debug
@@ -220,16 +218,16 @@ int mul_avx2(__m256i E_F[5], __m256i A_B[5], __m256i C_D[5])
 	// debug_v=_mm256_blend_epi32(Q, Q_1, 0x33);
 	// debug_v1=_mm256_sllv_epi64(_mm256_blend_epi32(Q, Q_1, 0x33), fuzhu92);
 
-	//0x33反，等价 +2^{100}-2^{68} 运算
+	// 0x33反，等价 +2^{100}-2^{68} 运算
 	E_F[1] = _mm256_add_epi64(E_F[1], _mm256_sllv_epi64(_mm256_blend_epi32(Q, Q_1, 0x33), fuzhu92));
 	//等价 +2^{228} 运算
 	E_F[4] = _mm256_add_epi64(E_F[4], _mm256_sllv_epi64(_mm256_blend_epi32(Q, zero, 0xcc), fuzhu9));
 
 	for (int i = 0; i < 5; i++)
 	{
-		L[i] = _mm256_and_si256(E_F[i], temp3); //temp=4个2^26-1
+		L[i] = _mm256_and_si256(E_F[i], temp3); // temp=4个2^26-1
 		M[i] = _mm256_srlv_epi64(E_F[i], temp5);
-		M[i] = _mm256_and_si256(M[i], temp3);	//右移26再与2^26-1
+		M[i] = _mm256_and_si256(M[i], temp3); //右移26再与2^26-1
 		H[i] = _mm256_srlv_epi64(E_F[i], temp4);
 	}
 
@@ -243,7 +241,7 @@ int mul_avx2(__m256i E_F[5], __m256i A_B[5], __m256i C_D[5])
 		}
 		else
 		{
-			//M_1[0]=[ M[2*4+1], M[2*0], ... ]=[ M[9], M[0], ... ]
+			// M_1[0]=[ M[2*4+1], M[2*0], ... ]=[ M[9], M[0], ... ]
 			M_1[0] = _mm256_alignr_epi8(M[0], M[4], 8);
 			E_F[0] = _mm256_add_epi64(_mm256_add_epi64(L[0], M_1[0]), H[4]);
 		}

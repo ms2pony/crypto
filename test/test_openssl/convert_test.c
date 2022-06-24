@@ -1,7 +1,13 @@
-//测试ecp_nistz256_mul_montx的执行过程
-// #define BN_ULONG unsigned long
+/**
+ * @require 需要openssl库
+ * @brief 1. 测试unsigned char *类型到openssl的BIGNUM类型的转换，对应BN_lebin2bn函数
+ * 2. BN_lebin2bn函数、ecp_nistz256_mul_mont函数、ecp_nistz256_mul_mont函数的使用
+ * 2.1. BN_lebin2bn函数转换前的类型可以用于ecp_nistz256_mul_mont函数
+ * 2.2. BN_lebin2bn函数转换后的类型可以用于ecp_nistz256_mul_mont函数
+ *
+ */
+
 #define P256_LIMBS (256 / BN_BITS2)
-// #define BN_BITS2 64
 #include <openssl/bn.h>
 #include <stdint.h>
 
@@ -9,25 +15,6 @@
 void ecp_nistz256_mul_mont(BN_ULONG res[P256_LIMBS],
 						   const BN_ULONG a[P256_LIMBS],
 						   const BN_ULONG b[P256_LIMBS]);
-
-int array2BnTest()
-{
-	BIGNUM *bn_a;
-	bn_a = BN_new();
-	BN_ULONG a[4] = {319875643198, 323298, 3232879827, 2123223239823};
-	BN_bin2bn((unsigned char *)a, 32, bn_a);
-	char *hex_a = BN_bn2hex(bn_a);
-
-	BIGNUM *bn_b = BN_new();
-	BN_hex2bn(&bn_b, hex_a);
-
-	// BN_cmp(bn_b, bn_a)返回0，表示相等
-	// 证明array2Bn函数的功能能够正确执行
-	if (BN_cmp(bn_b, bn_a) == 0)
-		return 1;
-
-	return 0;
-}
 
 int main()
 {
@@ -52,23 +39,23 @@ int main()
 
 	BN_MONT_CTX_set(mont_ctx, bn_p256, bn_ctx);
 
-	BN_bin2bn((unsigned char *)a, 32, bn_a);
-	BN_bin2bn((unsigned char *)b, 32, bn_b);
+	BN_lebin2bn((unsigned char *)a, 32, bn_a);
+	BN_lebin2bn((unsigned char *)b, 32, bn_b);
 
-	printf("a:\t%s\n", BN_bn2dec(bn_a));
-	printf("b:\t%s\n", BN_bn2dec(bn_b));
-	printf("res0 = %s\n", BN_bn2dec(bn_res));
+	printf("a:\t%s\n", BN_bn2hex(bn_a));
+	printf("b:\t%s\n", BN_bn2hex(bn_b));
 
 	ecp_nistz256_mul_mont(res, a, b);
-	BN_bin2bn((unsigned char *)res, 32, bn_res);
+	BN_lebin2bn((unsigned char *)res, 32, bn_res);
 
-	printf("res1 = a*b*2^-256 mod P\n=\t%s\n", BN_bn2dec(bn_res));
+	printf("res1 = a*b*2^-256 mod P\n=\t%s\n", BN_bn2hex(bn_res));
 
 	BN_set_bit(bn_R, 256);
 	BN_mod_inverse(bn_R_inv, bn_R, bn_p256, bn_ctx);
+	printf("R_inv = \n\t%s\n", BN_bn2hex(bn_R_inv));
 	res[0] = 0;
 	BN_mod_mul_montgomery(bn_res, bn_a, bn_b, mont_ctx, bn_ctx);
-	printf("res2 = a*b*2^-256 mod P\n=\t%s\n", BN_bn2dec(bn_res));
+	printf("res2 = a*b*2^-256 mod P\n=\t%s\n", BN_bn2hex(bn_res));
 
 	return 0;
 }
