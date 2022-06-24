@@ -11,3 +11,4 @@ a.out
 /.vscode
 build
 .*/
+*.o
