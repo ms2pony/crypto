@@ -96,7 +96,7 @@ int dec2bn(bignum **bn, const char *a)
    //    a++;
    // }
 
-   //isdigit函数检查参数是否为十进制字符串
+   // isdigit函数检查参数是否为十进制字符串
    for (i = 0; isdigit((unsigned char)a[i]); i++)
       continue;
 
@@ -106,9 +106,9 @@ int dec2bn(bignum **bn, const char *a)
       return (num);
 
    /*
-   * a is the start of the digits, and it is 'i' long. We chop it into
-   * BN_DEC_NUM digits at a time
-   */
+    * a is the start of the digits, and it is 'i' long. We chop it into
+    * BN_DEC_NUM digits at a time
+    */
 
    ret = *bn;
    // BN_zero(ret);
@@ -150,7 +150,7 @@ int dec2bn(bignum **bn, const char *a)
 */
 unsigned long bn_div_words(unsigned long h, unsigned long l, unsigned long d)
 {
-   unsigned long ret, waste; //ret是商，waste是余数
+   unsigned long ret, waste; // ret是商，waste是余数
 
    asm("divq      %4"
        : "=a"(ret), "=d"(waste)
@@ -309,11 +309,11 @@ char *bn2dec(bignum *a)
    int bn_data_num;
 
    /*-
-   * get an upper bound for the length of the decimal integer
-   * num <= (BN_num_bits(a) + 1) * log(2)
-   *     <= 3 * BN_num_bits(a) * 0.101 + log(2) + 1     (rounding error)
-   *     <= 3 * BN_num_bits(a) / 10 + 3 * BN_num_bits / 1000 + 1 + 1
-   */
+    * get an upper bound for the length of the decimal integer
+    * num <= (BN_num_bits(a) + 1) * log(2)
+    *     <= 3 * BN_num_bits(a) * 0.101 + log(2) + 1     (rounding error)
+    *     <= 3 * BN_num_bits(a) / 10 + 3 * BN_num_bits / 1000 + 1 + 1
+    */
 
    //计算十进制的位数，2进制位数换算成10进制位数，num为10进制位数
    i = BN_num_bits(a) * 3;
@@ -323,7 +323,7 @@ char *bn2dec(bignum *a)
    bn_data_num = num / BN_DEC_NUM + 1;
    bn_data = malloc(bn_data_num * sizeof(unsigned long));
 
-   //buf存储后面转成的10进制字符串
+   // buf存储后面转成的10进制字符串
    buf = malloc(num + 3);
 
    t = BN_dup(a);
@@ -334,17 +334,17 @@ char *bn2dec(bignum *a)
    while (!BN_is_zero(t))
    {
 
-      //lp接收的值是从低位开始，BN_div_word返回的是余数
+      // lp接收的值是从低位开始，BN_div_word返回的是余数
       *lp = BN_div_word(t, BN_DEC_CONV);
 
       lp++;
    }
    lp--;
    /*
-   * We now have a series of blocks, BN_DEC_NUM chars in length, where
-   * the last one needs truncation. The blocks need to be reversed in
-   * order.
-   */
+    * We now have a series of blocks, BN_DEC_NUM chars in length, where
+    * the last one needs truncation. The blocks need to be reversed in
+    * order.
+    */
 
    //这里接收最高的几位
    sprintf(p, "%lu", *lp);
@@ -531,7 +531,7 @@ bignum *BN_mul(bignum *a, bignum *b)
          bn2dec(ret);
       }
    }
-   //t[0]所指向的大整数最小，将所有t[i]相加
+   // t[0]所指向的大整数最小，将所有t[i]相加
 
    free(t);
    return ret;
