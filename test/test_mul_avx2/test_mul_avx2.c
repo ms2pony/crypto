@@ -55,7 +55,7 @@ void test_mul_avx2()
     show_bn_avx2_py(E_F);
 }
 
-void test_mul_avx2_1()
+void test_mul_avx2_2()
 {
     __m256i A_B[5];
     __m256i C_D[5];
@@ -78,7 +78,7 @@ void test_mul_avx2_1()
     }
 }
 
-void test_mul_avx2_2()
+void test_mul_avx2_3()
 {
     __m256i A_B[5];
     __m256i C_D[5];
@@ -114,7 +114,7 @@ void test_mul_avx2_2()
     // }
 }
 
-void test_mul_avx2_3()
+void test_mul_avx2_4()
 {
     __m256i A_B[5];
     __m256i C_D[5];
@@ -150,7 +150,7 @@ void test_mul_avx2_3()
 
 int main()
 {
-    // test_mul_avx2_1();
-    test_mul_avx2_3();
+    test_mul_avx2_2();
+    // test_mul_avx2_4();
     return 0;
 }

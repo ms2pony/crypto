@@ -14,11 +14,6 @@ extern "C"
 	void ecp_nistz256_mul_mont(BN_ULONG res[P256_LIMBS],
 							   const BN_ULONG a[P256_LIMBS],
 							   const BN_ULONG b[P256_LIMBS]);
-}
-
-void bench_mul_mod()
-{
-	double sum = 0;
 
 	__m256i A_B[5];
 	__m256i C_D[5];
@@ -30,6 +25,28 @@ void bench_mul_mod()
 	BN_ULONG D[5] = {0};
 	BN_ULONG E[5] = {0};
 	BN_ULONG F[5] = {0};
+}
+
+void base1(int iterations)
+{
+	for (int i = 0; i < iterations; i++)
+	{
+		mul_avx2(E_F, A_B, C_D);
+	}
+}
+
+void base2(int iterations)
+{
+	for (int i = 0; i < iterations; i++)
+	{
+		ecp_nistz256_mul_mont(E, A, C);
+		ecp_nistz256_mul_mont(E, A, C);
+	}
+}
+
+void bench_mul_mod()
+{
+	double sum = 0, sum2 = 0;
 
 	unsigned int seed = (unsigned int)time(NULL);
 
@@ -44,23 +61,29 @@ void bench_mul_mod()
 		bn_avx2to_normal(C_D, C, D);
 
 		auto begin = chrono::high_resolution_clock::now();
-		for (int i = 0; i < iterations; i++)
-		{
-#ifdef MULAVX2
-			mul_avx2(E_F, A_B, C_D);
-#else
-			ecp_nistz256_mul_mont(E, A, C);
-			ecp_nistz256_mul_mont(E, A, C);
-#endif
-		}
+		base1(iterations);
 		// Stop measuring time and calculate the elapsed time
 		auto end = chrono::high_resolution_clock::now();
 		auto elapsed = chrono::duration_cast<std::chrono::nanoseconds>(end - begin);
 		// printf("Time measured: %.3f seconds.\n", elapsed.count() * 1e-9);
 		sum += elapsed.count() * 1e-9;
+
+		begin = chrono::high_resolution_clock::now();
+		base2(iterations);
+		// Stop measuring time and calculate the elapsed time
+		end = chrono::high_resolution_clock::now();
+		elapsed = chrono::duration_cast<std::chrono::nanoseconds>(end - begin);
+		// printf("Time measured: %.3f seconds.\n", elapsed.count() * 1e-9);
+		sum2 += elapsed.count() * 1e-9;
 	}
 
-	cout << "Time measured: " << sum / (iterations * iterations) << " seconds." << endl;
+	cout << "Time measured(mul_avx2): " << endl
+		 << sum / (iterations * iterations) << " seconds.\t"
+		 << sum / (iterations * iterations) * 2.6e+9 << " reference cycles." << endl;
+
+	cout << "Time measured(ecp_nistz256_mul_mont): " << endl
+		 << sum2 / (iterations * iterations) << " seconds.\t"
+		 << sum2 / (iterations * iterations) * 2.6e+9 << " reference cycles." << endl;
 }
 
 int main()
