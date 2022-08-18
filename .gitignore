@@ -1,10 +1,4 @@
-# 基本
-## /temp，前面加`/`表示仅忽略根目录上的temp
-*
-## 取消忽略所有目录，结尾的`/`表示目录
-!*/
-## 取消忽略有后缀的文件
-!*.*
+# notes branch专属.gitignore
 ## 取消忽略makefile文件，因为makefile没有后缀
 !makefile
 temp*
@@ -13,24 +7,7 @@ out/
 a.out
 build/
 ## .*/包括了.vscode/
-.*
 *.o
 __pycache__/
-external2/
-not_text/
-!.gitignore
-*.xmind
-*.xlsx
-*.vsdx
-
-# 额外
-*.sage.py
-!.gdbinit
-*.log
 ## 形如t1.c, ta.c，不包括tad.c
 t?.*
-*.s
-## 文件名以-n结尾的.s文件保留
-!*-n.s
-perf.data
-Untitled*
