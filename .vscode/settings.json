@@ -1,0 +1,7 @@
+{
+    "clangd.fallbackFlags": [
+        "-I${workspaceFolder}/external/openssl/include",
+        // "-w"
+    ],
+    "python.analysis.extraPaths": ["/home/tam/github/crypto/src/general_mul"]
+}

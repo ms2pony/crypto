@@ -23,7 +23,7 @@ not_text/
 *.vsdx
 
 # 额外
-external/
+!.vscode
 *.sage.py
 !.gdbinit
 *.log
