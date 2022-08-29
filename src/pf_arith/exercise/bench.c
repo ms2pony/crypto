@@ -1,23 +1,16 @@
 #include <stdio.h>
-void mont_mul_opt(unsigned long *res);
+#include "clock.h"
+void mont_mul_opt(unsigned long **res);
+unsigned long* mul(unsigned long A[10],unsigned long B[10]);
+
+extern unsigned long A[10],B[10];
 
 int main()
 {
+    const int BENCH = 800;
     unsigned long *res;
-    long t1, t2, time = 0;
-    for (int i = 0; i < 10000; i++)
-    {
-        asm volatile(
-            "cpuid;rdtsc;mfence"
-            : "=a"(t1) //一定要存，因为接下来肯定要用到eax
-        );
-        mont_mul_opt(res);
-        asm volatile(
-            "mfence;rdtsc;mfence"
-            : "=a"(t2) //一定要存，因为接下来肯定要用到eax
-        );
-        time += t2 - t1;
-    }
-    printf("%ld\n", time / 10000);
-    // printf("%d", res);
+
+    // CLOCKS(MontMul,mont_mul_opt(&res));
+    CLOCKS(MontMul,mul(A,B));
+
 }

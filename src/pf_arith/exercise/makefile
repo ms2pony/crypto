@@ -1,12 +1,15 @@
-CFLAGS=-I/home/tam/github/crypto/external/openssl -g -w
+CFLAGS=-I/home/tam/github/crypto/external/openssl -O3
 LIB=/home/tam/github/crypto/external/openssl/libcrypto.a
-mont_mul=mont_mul.o
+mont_mul=t1.s
 CC=clang
 
 %.o: %.c
 	$(CC) -c $(CFLAGS) $< -o $@
 
-app: $(mont_mul) $(LIB)
+# app: $(mont_mul) $(LIB)
+# 	$(CC) $^ -o $@
+
+app: $(mont_mul) $(LIB) bench.c clock.c
 	$(CC) $^ -o $@
 
 clean:
