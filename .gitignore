@@ -6,8 +6,5 @@ tmp*
 out/
 a.out
 build/
-## .*/包括了.vscode/
-*.o
-__pycache__/
 ## 形如t1.c, ta.c，不包括tad.c
 t?.*
