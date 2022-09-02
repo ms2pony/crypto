@@ -8,3 +8,6 @@ a.out
 build/
 ## 形如t1.c, ta.c，不包括tad.c
 t?.*
+
+# 临时
+# pf_arith.xmind
