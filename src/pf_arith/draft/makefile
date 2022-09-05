@@ -13,4 +13,4 @@ app2: $(mont_mul2) bench.c clock.c
 	$(CC) $^ -o $@ -mavx2
 
 clean:
-	rm -rf a.out *.o app
+	rm -rf a.out *.o app*
