@@ -9,7 +9,7 @@ extern unsigned long A[10],B[10];
 
 int main()
 {
-    const int BENCH = 1000;
+    const int BENCH = 2000;
     unsigned long *res;
 
     // __m256i A_B[5];

@@ -189,8 +189,8 @@ for x in range(1,77):
 
     counts.append(count_copy1)
 
-# for e in counts:
-#     print(e)
+for e in counts:
+    print(e)
 # print(len(counts))
 
 # print(Tx_1_values)
@@ -275,6 +275,6 @@ for e in express:
 
     i+=1
 
-for e in express1:
-    print(e)
-print(len(express1))
+# for e in express1:
+#     print(e)
+# print(len(express1))
